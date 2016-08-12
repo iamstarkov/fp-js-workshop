@@ -1,6 +1,93 @@
-# why
+# real world fp
 
-To remove
+## what is fp
+
+Functional programming:
+
+* declarative programming paradigm
+* computation as the evaluation of mathematical functions
+* avoids changing-state and mutable data and side-effects
+* encourage functional composition
+
+### declarative vs imperative
+
+```js
+function imperativeDoubleArray(arr) {
+  var result = [];
+  for (var i = 0, i++, i<arr.length) {
+    result.push(arr[i] * 2);
+  }
+  return result;
+}
+
+function declarativeDoubleArray(arr) {
+  const double = i => i*2;
+  return arr.map(double);
+  // you dont care how map or double is implemented undernearth
+}
+```
+
+## mathematical function f(x)
+
+In mathematics, a function is a relation between a set of inputs and a set of permissible outputs with the property that each input is related to exactly one output. `f(x)`. aka pure function in computer science.
+
+in short:
+* same input = same output
+
+https://en.wikipedia.org/wiki/Function_(mathematics)
+
+## Pure function
+
+A pure function is a function that, given the same input, will always return the same output and does not have any observable side effect.
+
+Pros:
+* predictability `// reduce cognitive load`
+* ReferentialTransparency / Reasonable `// function invocation can be changed with produced value`
+* Cacheable / memoizability `// perf boost`
+* Portable / Self-Documenting `// reduce cognitive load`
+* Testable `// oh my gosh`
+* Parallel Code / concurrency / no race condition given `// one more perf boost`
+* immutability `// as far as no mutation is happening in fp` https://iamstarkov.com/why-immutability-matters/
+
+https://en.wikipedia.org/wiki/Pure_function
+
+## Side effects sucks
+
+Any interaction with the world outside of a function is a side effect, which is a fact that may prompt you to suspect the practicality of programming without them
+
+You are not in control anymore
+
+Side effects may include, but are not limited to
+
+* changing the file system
+* inserting a record into a database
+* making an http call
+* mutations
+* printing to the screen / logging
+* obtaining user input
+* querying the DOM
+* accessing system state
+* ...
+* Profit `// not really`
+
+
+We are not prohibiting side effects, but more like controlling them.
+Because wo/ them we cant do anything useful for real world.
+
+## why the fuck not oop
+
+> You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.
+> Joe Armstrong, creator of Erlang "Coders at Work".
+> http://www.johndcook.com/blog/2011/07/19/you-wanted-banana/
+
+* composition over inheritance https://www.youtube.com/watch?v=wfMtDGfHWpA
+* its not oop from the start
+* erlang is more oop in original oop sense https://www.youtube.com/watch?v=YaUPdgtUYko
+* refactor functions easier than complex class architecture
+
+## cognitive load
+
+re
 
 ```
 // mutation, aka side-effects
