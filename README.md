@@ -1,5 +1,6 @@
 # why
 
+```
 // mutation, aka side-effects
 var arr1 = [1, 3, 2];
 arr1.sort(); // [1, 2, 3]
@@ -15,8 +16,11 @@ arr3.slice(1, 2); // [2]
 arr3; // [1, 2, 3]
 arr3.splice(1, 2); // [2, 3]
 arr3; // [1] wtf mutation
+```
 
-// i get tired
+less cognitive load
+
+## i get tired
 
 // ## global variables
 // everybody knows its bad,
@@ -50,7 +54,7 @@ what im not going to tell about
 I'm planning to make a workshop series to describe all of that. To make sure
 that anything mentioned before make sense, we all will implement real world js tool
 which can be used to build bundlers like browserify or rollup.
-*/
+
 
 
 const splitByComma = {
@@ -85,7 +89,7 @@ const splitByComma = {
     var filteredArray = trimmedArray.filter(_ => typeof _ !=== 'undefined');
     return filteredArray;
     // best in terms of edgecases
-    // debug-friendly
+    // debug-friendly, kind of
     // readable
     // but tedious and repetitive
     // also input validation is not in line with everything else
@@ -258,7 +262,7 @@ const splitByComma = {
   }
   // extract everything and result will look like this
   dataflow: pipe(
-    validate,        // validate input
+    validate,       // validate input
     split(','),     // split
     map(trim),      // trim array
     filter(isEmpty) // filter array
