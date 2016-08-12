@@ -1,5 +1,7 @@
 # why
 
+To remove
+
 ```
 // mutation, aka side-effects
 var arr1 = [1, 3, 2];
@@ -56,7 +58,7 @@ that anything mentioned before make sense, we all will implement real world js t
 which can be used to build bundlers like browserify or rollup.
 
 
-
+```
 const splitByComma = {
   naive: input => input.split(','), // oh my god, no, no… no!
   typecheck: input => {
@@ -270,3 +272,4 @@ const splitByComma = {
   // look ma,
   // no variables, no mutation!
 }
+```
