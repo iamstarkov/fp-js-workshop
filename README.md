@@ -48,6 +48,7 @@ Pros:
 * Testable `// oh my gosh`
 * Parallel Code / concurrency / no race condition given `// one more perf boost`
 * immutability `// as far as no mutation is happening in fp` https://iamstarkov.com/why-immutability-matters/
+* headache painkiller
 
 https://en.wikipedia.org/wiki/Pure_function
 
@@ -87,8 +88,6 @@ Because wo/ them we cant do anything useful for real world.
 
 ## cognitive load
 
-re
-
 ```
 // mutation, aka side-effects
 var arr1 = [1, 3, 2];
@@ -107,9 +106,7 @@ arr3.splice(1, 2); // [2, 3]
 arr3; // [1] wtf mutation
 ```
 
-less cognitive load
-
-## i get tired
+## another arguments
 
 // ## global variables
 // everybody knows its bad,
@@ -140,9 +137,6 @@ I will try to cover some fp topics, like:
 what im not going to tell about
 * monads, functors, applicative functors: nope
 
-I'm planning to make a workshop series to describe all of that. To make sure
-that anything mentioned before make sense, we all will implement real world js tool
-which can be used to build bundlers like browserify or rollup.
 
 
 ```
