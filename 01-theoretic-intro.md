@@ -14,7 +14,7 @@ controls: false
 # real world fp
 ## #1 theoretic intro
 
-<del>Monads, Comonad, Monoids, Setoids, Endofunctors.</del>
+<del>Monads, Comonad, Monoids, Setoids, Endofunctors.</del>  
 Easy to understand, read, test and debug
 
 --
