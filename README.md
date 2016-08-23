@@ -1,217 +1,30 @@
+# fp-js-workshop
 
+> real world fp
 
-```
-const splitByComma = {
-  naive: input => input.split(','), // oh my god, no, no… no!
-  typecheck: input => {
-    if (typeof input !== 'string') {
-      throw new Error('input should be String, got: ' + input);
-    }
-    return input.split(',');
-    // error prone
-  }
-  edgecase: input => {
-    if (typeof input !== 'string') {
-      throw new Error('input should be String, got: ' + input);
-    }
-    return input.split(',').filter(Boolean);
-    // better, though more edgecases left
-  }
-  edgecase2: input => {
-    if (typeof input !== 'string') {
-      throw new Error('input should be String, got: ' + input);
-    }
-    return input.split(',').map(_ => _.trim()).filter(_ => typeof _ !=== 'undefined');
-    // best in terms of edgecases, worst in readability and debugging
-  }
-  readable: input => {
-    if (typeof input !== 'string') {
-      throw new Error('input should be String, got: ' + input);
-    }
-    var inputArray = input.split(',');
-    var trimmedArray = inputArray.map(_ => _.trim());
-    var filteredArray = trimmedArray.filter(_ => typeof _ !=== 'undefined');
-    return filteredArray;
-    // best in terms of edgecases
-    // debug-friendly, kind of
-    // readable
-    // but tedious and repetitive
-    // also input validation is not in line with everything else
-  }
-  validateAsFn: input => {
-    const validate = input => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    var validInput = validate(input);
-    var inputArray = validInput.split(',');
-    var trimmedArray = inputArray.map(_ => _.trim());
-    var filteredArray = trimmedArray.filter(_ => typeof _ !=== 'undefined');
-    return filteredArray;
-    // input validation is in line with everything else
-    // a lot of temp variables
-  }
-  draftPipe: input => {
-    const validate = input => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    const fn = pipe(
-      input => validate(input),
-      validInput => validInput.split(','),
-      inputArray => inputArray.map(_ => _.trim()),
-      trimmedArray => trimmedArray.filter(_ => typeof _ !=== 'undefined')
-    );
-    return fn(input);
-    // better, but do we really need all those variables in pipe
-    // and you will ask me about debuggin this shit, right?
-  }
-  draftPipeV2debugwise: input => {
-    const tap = (fn, input) => { fn(input); return input; }
-    const log = input => tap(console.log.bind(this), input);
-    const validate = input => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    const fn = pipe(
-      validate,
-      validInput => split(',', validInput),
-      log, // ['some', 'array']
-      inputArray => inputArray.map(_ => _.trim()),
-      trimmedArray => trimmedArray.filter(_ => typeof _ !=== 'undefined')
-    );
-    return fn(input);
-    // hey, kind of readable and with debuggin!
-    // yes, but whats about all of that temp variables?
-    // lets try one approach to remove them
-    // but first lets try to simplify stuff
-  }
-  draftPipeV4moreFunctions: input => {
-    const tap = (fn, input) => { fn(input); return input; }
-    const log = input => tap(console.log.bind(this), input);
-    const validate = input => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    const split = (separator, input) => input.split(separator);
-    const trim = input => input.trim();
-    const isNil = input => typeof input === 'undefined';
-    const fn = pipe(
-      validate,
-      validInput => split(',', validInput),
-      log,
-      inputArray => inputArray.map(trim),
-      trimmedArray => trimmedArray.filter(isNil)
-    );
-    return fn(input);
-    // a bit cleaner
-    // yes, but still whats about all of that temp variables?
-    // wait a bit one more step required
-  }
-  draftPipeV5moreFunctionsToTheFunctionsGod: input => {
-    const tap = (fn, input) => { fn(input); return input; }
-    const log = input => tap(console.log.bind(this), input);
-    const validate = input => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    const split = (separator, input) => input.split(separator);
-    const trim = input => input.trim();
-    const isNil = input => typeof input === 'undefined';
-    const map = (fn, arr) => arr.map(fn);
-    const filter = (fn, arr) => arr.filter(fn);
-    const fn = pipe(
-      validate,
-      validInput => split(',', validInput),
-      log,
-      inputArray => map(trim, inputArray),
-      trimmedArray => filter(isNil, trimmedArray)
-    );
-    return fn(input);
-    // now we are ready to add some curry
-  }
-  draftPipeV6currying: input => {
-    const tap = (fn, input) => { fn(input); return input; }
-    const log = input => tap(console.log.bind(this), input);
-    const validate = input,  => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    // simple auto currying
-    // (does NOT separately handle f.length == args.length or f.length < args.length cases)
-    const curry = (f, ...args) => (f.length <= args.length)
-      ? f(...args)
-      : (...more) => curry(f, ...args, ...more);
-    const split = curry((separator, input) => input.split(separator));
-    const trim = input => input.trim();
-    const isNil = input => typeof input === 'undefined';
-    const map = curry((fn, arr) => arr.map(fn));
-    const filter = curry((fn, arr) => arr.filter(fn));
-    const fn = pipe(
-      validate,
-      split(','),
-      log,
-      map(trim),
-      filter(isNil)
-    );
-    return fn(input);
-    // now we are ready to extract apply currying!
-  }
-  dataflowContract: input => {
-    const tap = (fn, input) => { fn(input); return input; }
-    const log = input => tap(console.log.bind(this), input);
-    const contract = (argName, type, arg)  => {
-      if (typeof input !== 'string') {
-        throw new Error('input should be String, got: ' + input);
-      }
-      return input;
-    }
-    const pipe = (...args) => result => args.reduce((res, arg) => arg.call(this, res), result);
-    // simple auto currying
-    // (does NOT separately handle f.length == args.length or f.length < args.length cases)
-    const curry = (f, ...args) => (f.length <= args.length)
-      ? f(...args)
-      : (...more) => curry(f, ...args, ...more);
-    const split = curry((separator, input) => input.split(separator));
-    const trim = input => input.trim();
-    const isNil = input => typeof input === 'undefined';
-    const map = curry((fn, arr) => arr.map(fn));
-    const filter = curry((fn, arr) => arr.filter(fn));
-    const fn = pipe(
-      validate,
-      split(','),
-      log,
-      map(trim),
-      filter(isNil)
-    );
-    return fn(input);
-    // now we are ready to extract apply currying!
-  }
-  // extract everything and result will look like this
-  dataflow: pipe(
-    validate,       // validate input
-    split(','),     // split
-    map(trim),      // trim array
-    filter(isEmpty) // filter array
-  ) // readable, debuggable, all edgecases covered and declarative
-  // look ma,
-  // no variables, no mutation!
-}
-```
+I wanna share some functional programming knowledge,
+more specially bundling (not really, but close).
+
+I will try to cover some fp topics, like:
+* why does it mean "functional"
+* pureness, side-effects
+* what is currying
+* what is composition
+* a bit of lenses
+
+What im not going to tell you about
+* monads, functors, applicative functors, category theory—nope, not even once
+
+This is intended to be workshop series to describe all of that. To make sure
+that anything mentioned before make sense, we all will implement real world js tool
+which can be used to build bundlers like browserify or rollup.
+
+## Talks
+
+1. [Theoretic intro](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/#2)
+2. Practical intro (upcoming)
+3. Start implementation of real world modules. Several of them, smth about 6 sessions.
+
+## License
+
+MIT © [Vladimir Starkov](https://iamstarkov.com)
