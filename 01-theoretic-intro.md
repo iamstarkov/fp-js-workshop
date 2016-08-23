@@ -316,11 +316,6 @@ const curry = fn => // takes function
       // if all arguments are provided,
       // just invoke function with them
       : fn(...args)
-
-const sum = curry( (a, b) => a + b);
-
-sum(1)(2); // 3
-sum(1, 2); // 3;
 ```
 
 --
@@ -444,7 +439,8 @@ censored('Chocolate Rain');
 * Takes functions, returns composed function
 * Returns composed function which takes `arguments`
 * Invokes (right to left) each passed function after each other
-* Every next function will get calculation result of previous one.
+* Every next function will get calculation result of previous one
+* Note: right most function can take any arguments
 
 `f(g(x)) === compose(f, g)(x)`, in short
 
@@ -488,20 +484,20 @@ alsoShout('send in the clowns'); // "SEND IN THE CLOWNS!"
 For those, who are curious:
 
 ```
-const compose = (...fns) => // Takes functions
+const compose = (...fns) => { // Takes functions
+  // separate right most function from rest functions
+  const [tailFn, ...restFns] = fns.reverse();
   // Returns composed function
-  (...args) =>  // which takes `arguments`
-    // Invokes (right to left) each passed function after each other
-    fns.reduceRight(
-      (result, fn) => {
-        // right most function can take any arguments
-        // every other function can take only one argument
-        return Array.isArray(result)
-          ? fn(...result)
-          : fn(result);
-      },
-      args
-    )
+  return (...args) => { // which takes `arguments`
+    // Invokes each passed function after each other
+    return restFns.reduce(
+      // each function takes result of previous one
+      (value, fn) => fn(value),
+      // but right most function can take any arguments
+      tailFn(...args)
+    );
+  };
+};
 ```
 
 --
