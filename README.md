@@ -2,8 +2,8 @@
 
 > real world fp
 
-I wanna share some functional programming knowledge,
-more specially bundling (not really, but close).
+I wanna share some functional programming knowledge in application
+to building real world tools.
 
 I will try to cover some fp topics, like:
 * why does it mean "functional"
