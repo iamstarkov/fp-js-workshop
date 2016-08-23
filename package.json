@@ -1,0 +1,25 @@
+{
+  "name": "fp-js-workshop",
+  "version": "0.0.0",
+  "description": "real world fp",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo 'No tests here, go away'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamstarkov/fp-js-workshop.git"
+  },
+  "keywords": [
+    "fp",
+    "js"
+  ],
+  "author": "Vladimir Starkov <iamstarkov@gmail.com> (https://iamstarkov.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iamstarkov/fp-js-workshop/issues"
+  },
+  "homepage": "https://github.com/iamstarkov/fp-js-workshop#readme"
+}
