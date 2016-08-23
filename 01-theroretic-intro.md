@@ -6,13 +6,15 @@ author:
   url: https://iamstarkov.com
 output: 01-theoretic-intro.html
 theme: jdan/cleaver-retro
+style: css/custom.css
+controls: false
 
 --
 
 # real world fp
 ## #1 theoretic intro
 
-<del>Monads, Comonad, Monoids, Setoids, Endofunctors</del>.  
+<del>Monads, Comonad, Monoids, Setoids, Endofunctors.</del>
 Easy to understand, read, test and debug
 
 --
@@ -204,24 +206,26 @@ Animal
 > Our customers demand MurderRobotDog  
 > — Sincerely, yours manager. ` // every once in a while`
 
+No good way to refactor.
+
 --
 
 ### why not oop #4, composition&nbsp;over&nbsp;inheritance
 
-With inheritance:
+On the other side, with inheritance:
 * Dog: pooper + barker
 * Cat: pooper + meower
 * CleaningRobot: driver + cleaner
 * MurderRobot: driver + killer
 
-*MurderRobotDog: driver + killer + barker*
+*MurderRobotDog: driver + killer + barker*, boom!
 
 --
 
 ### why not oop, summary
 
 * its not oop from the start
-* [erlang is more oop in original OOP sense](https://www.youtube.com/watch?v=YaUPdgtUYko)
+* [even erlang is more oop in the original OOP sense](https://www.youtube.com/watch?v=YaUPdgtUYko)
 * composition over inheritance, because refactor functions easier than complex class architecture
 
 --
@@ -249,15 +253,16 @@ With inheritance:
 
 ### Curry
 
-* Takes function, returns curried function.
+* Takes function, returns curried function
 * Curried function doesnt need all arguments to be provided from the start
-* Curried function will postpone calculation until it gets all needed arguments, meanwhile returning function to consume arguments which left.
+* Curried function will postpone calculation until it gets all needed arguments, meanwhile returning function to consume arguments which left
 
 ---
 
 ### Curry
 
 ```
+// naive simple currying
 var add = function(x) {
   return function(y) {
     return x + y;
@@ -295,7 +300,7 @@ const double = x => x * 2;
 ```
 const multiply = (x, y) => x * y;
 const double = x => multiply(x, 2);
-const alsoDouble = x => multiply(2, x);
+const alsoDouble = y => multiply(2, y);
 ```
 
 --
@@ -306,10 +311,10 @@ const alsoDouble = x => multiply(2, x);
 const multiply = (x, y) => x * y;
 const curriedMultiply = curry(multiply);
 
-// const double = x => curriedMultiply(2, x);
-const double = curriedMultiply(2); // x => multiply(2, x)
+// const double = y => curriedMultiply(2, y);
+const double = curriedMultiply(2); // y => multiply(2, y)
 
-double(50); // 100
+double(50); // multiply(2, 50) → 100
 ```
 
 --
@@ -317,11 +322,14 @@ double(50); // 100
 ### Curry, why? `another shot`
 
 ```
-const pow = curry( (x, y) => Math.pow(x, y) );
+// OBS: exponent is first argument, base is last
+const power = curry( (exponent, base) => {
+  return Math.pow(base, exponent);
+} );
 
-const square = pow(2); // x => pow(2, x)
+const square = power(2); // base => power(base, 2)
 
-square(3); // 9
+square(3); // power(2, 3) → 9
 ```
 --
 
@@ -330,9 +338,9 @@ square(3); // 9
 ```
 cont add = curry( (x, y) => x + y );
 
-const inc = curriedAdd(1); // x => add(1, x)
+const inc = add(1); // y => add(1, y)
 
-inc(1); // 2
+inc(1); // add(1, 1) → 2
 ```
 --
 
@@ -341,11 +349,14 @@ inc(1); // 2
 ```
 const match = curry( (pattern, str) => str.match(pattern) );
 
-const hasSpaces = match(/\s+/g); // str => str.match(/\s+/g);
+const hasSpaces = match(/\s+/g);
+// str => str.match(/\s+/g);
 
-hasSpaces('hello world'); // [' ']
+hasSpaces('hello world');
+// match(/\s+/g, 'hello world') → [' ']
 
-hasSpaces('spaceless'); // null
+hasSpaces('spaceless');
+// match(/\s+/g, 'spaceless') → null
 ```
 
 --
@@ -353,19 +364,21 @@ hasSpaces('spaceless'); // null
 ### Curry, why? `another shot`
 
 ```
-const replace = curry(
-  function (pattern, replacement, str) {
-    return str.replace(pattern, replacement);
-  }
-);
+// three arguments in original function
+const replace = curry( function (pattern, replacement, str) {
+  return str.replace(pattern, replacement);
+} );
 
 const noVowels = replace(/[aeiouy]/ig);
+// replace() got `/[aeiouy]/ig` as a 1st argument, 2 left
 // (replacement, str) => str.replace(/[aeiouy]/ig, replacement);
 
-const censor = noVowels('*');
+const censored = noVowels('*');
+// replace() got '*' as a 2nd argument, 1 to go
 // str => str.replace(/[aeiouy]/ig, '*');
 
-censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
+censored('Chocolate Rain');
+// replace(/[aeiouy]/ig, '*', 'Chocolate Rain') → 'Ch*c*l*t* R**n'
 
 ```
 
@@ -406,6 +419,7 @@ var alsoCompose = (f, g) => x => f(g(x));
 
 ```
 const compose = (f, g) => x => f(g(x));
+// compose(f, g)(x) ≣ f(g(x))
 
 const toUpperCase = x => x.toUpperCase();
 const exclaim = x => x + '!';
@@ -424,18 +438,31 @@ alsoShout('send in the clowns'); // "SEND IN THE CLOWNS!"
 // compose :: ...functions -> function
 
 // keywords(' hello,, world'); // ['hello', 'world']
-// so you have a function which needs
-// to validate, split, trim and filter
-const keywords1 = input => validate(input);
-const keywords2 = input => split(validate(input));
-const keywords3 = input => trim(split(validate(input)));
-const keywords4 = input => filter(trim(split(validate(input))));
+// function needs to validate, split, trim and filter
+const keywords1 = input =>
+  filter(trim(split(validate(input))));
 
-const keywords = compose(filter, trim, split, validate);
+const keywords2 = input => compose(
+  filter, trim, split, validate // OBS: right to left
+)(input);
+
+// though input => compose(…)(input) === compose(…)
+const keywords  = compose(filter, trim, split, validate);
+
 keywords(' hello,, world'); // ['hello', 'world']
 ```
 
-*Problem*, humans read from left to right, not other way around.
+--
+
+### Functional composition, `compose, broad sense`
+
+```
+const keywords = input => filter(trim(split(validate(input))));
+const alsoKeywords  = compose(filter, trim, split, validate);
+```
+
+**Problem:**  
+humans read from left to right, not other way around.
 
 --
 
@@ -489,11 +516,12 @@ const keywords = str => Promise.resolve(str)
 
 ### Functional Programming, summary
 
+Functions takes functions and returns functions
 <img
   style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
   src="http://img2-ak.lst.fm/i/u/arO/2a6031c9d53d48fda501d84bac7089ff">
 
---
+-- drop-mic
 
 ### Functional Programming, summary
 
@@ -503,4 +531,40 @@ const keywords = str => Promise.resolve(str)
 * derive more specific functions from them with `curry`
 * `compose` existing functions to create new ones
 * declare your data flow with `pipe`
-* have fun
+* have fun<span>ctions <br> <img
+  style="max-height: 100px; display: block; margin: 0 auto;"
+  src="https://img.rt.com/files/2016.05/original/5725d86ac46188bd038b45a1.jpg"></span>
+
+--
+
+### Functional Programming, further reading
+
+* [Mostly adequate guide to FP (in javascript)](https://github.com/MostlyAdequate/mostly-adequate-guide), book
+* [Purity and Side effects](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html), article
+* Curry — [definition](curry-def) and [explanation](curry-expl)
+* Function composition — [definition][compose-def] and [explanation][compose-expl]
+* [Why immutability matters](https://iamstarkov.com/why-immutability-matters/), article
+* [Alan Kay about OOP](http://programmers.stackexchange.com/a/58732/56648), article
+* [Joe Armstrong about OOP](http://www.johndcook.com/blog/2011/07/19/you-wanted-banana/), article
+* [Joe Armstrong about Erlang is being more OOP than C++](https://www.youtube.com/watch?v=YaUPdgtUYko), video
+* [Composition over Inheritance][comp-over-inher] in [funfunfunction][funx3] by [@mpjme][mpjme], video
+
+[curry-def]: https://en.wikipedia.org/wiki/Currying
+[curry-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html#cant-live-if-livin-is-without-you
+[compose-def]: https://en.wikipedia.org/wiki/Function_composition_(computer_science)
+[compose-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
+[comp-over-inher]: https://youtu.be/wfMtDGfHWpA
+[funx3]: https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q
+[mpjme]: twitter.com/mpjme
+
+
+--
+
+### Functional Programming, `recursion`
+
+This presentation is available on url  
+https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/
+
+To be continued with "#2 Practical intro".
+
+Stay tuned.
