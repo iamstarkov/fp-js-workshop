@@ -212,7 +212,7 @@ No good way to refactor.
 
 ### why not oop #4, composition&nbsp;over&nbsp;inheritance
 
-On the other side, with inheritance:
+On the other side, with composition:
 * Dog: pooper + barker
 * Cat: pooper + meower
 * CleaningRobot: driver + cleaner
