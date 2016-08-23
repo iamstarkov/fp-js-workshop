@@ -7,7 +7,7 @@ author:
 output: 01-theoretic-intro.html
 theme: jdan/cleaver-retro
 style: css/custom.css
-controls: false
+controls: true
 
 --
 
@@ -30,8 +30,6 @@ Easy to understand, read, test and debug
 
 ### declarative vs imperative
 
-<!-- you dont care how map or double is implemented undernearth -->
-
 ```
 function imperativeDoubleArray(arr) {
   var result = [];
@@ -41,8 +39,7 @@ function imperativeDoubleArray(arr) {
   return result;
 }
 
-
-const double = i => i*2;
+const double = i => i * 2;
 const declarativeDoubleArray = arr => arr.map(double);
 ```
 --
@@ -87,7 +84,7 @@ var checkAge = function(age) {
 
 * Predictability, with [immutability](https://iamstarkov.com/why-immutability-matters/)
 * Referential Transparency
-* Cacheable / memoizability, `// function as hashtable`
+* Cacheable / memoizability, `// e.g. hash table`
 * Portable / Self-Documenting
 * Testable
 * Parallel Code / concurrency
@@ -101,9 +98,14 @@ var checkAge = function(age) {
 **state, internal variables**, same as global variables but from within
 
 ```
-Promise.resolve(1).then(Promise.resolve); // TypeError
-Promise.resolve(1).then(Promise.resolve.bind(Promise)); // 1
+console.log('sup /js/') // 'sup /js/'
+
+const log = console.log;
+log('sup /js/'); // TypeError: 'log' called on an object…
+// because method `log` needs console's
+// internal variable `this` — state
 ```
+
 --
 
 ### Side effects
@@ -177,11 +179,14 @@ As a part of an answer, why not OOP.
 
 ### why not oop #3, composition&nbsp;over&nbsp;inheritance
 
+Few following slides will briefly describe a problem with inheritance
+
 <iframe width="100%" height="400" src="https://www.youtube.com/embed/wfMtDGfHWpA" frameborder="0" allowfullscreen></iframe>
 
 --
 
 ### why not oop #3, composition&nbsp;over&nbsp;inheritance
+
 
 ```
 Robot
@@ -206,6 +211,7 @@ Animal
 > Our customers demand MurderRobotDog  
 > — Sincerely, yours manager. ` // every once in a while`
 
+But robots do not have digestive system to be able to poop.
 No good way to refactor.
 
 --
@@ -230,7 +236,10 @@ On the other side, with composition:
 
 --
 
-<img width="100%" src='http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif' />
+<img
+  style="min-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
+  src='http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif'
+  />
 
 --
 
@@ -269,11 +278,16 @@ var add = function(x) {
   };
 };
 var alsoAdd = x => y => x + y;
+
+add(1)(2) === alsoAdd(1)(2) === 3; // true
+// though add(1, 2) isnt working, lets fix that
 ```
 
 --
 
-### Curry
+### Curry, `as a blackbox`
+
+It just works™
 
 ```
 const sum = (a, b, c) => a + b + c;
@@ -285,6 +299,30 @@ curriedSum(1, 2)(3); // 6
 curriedSum(1)(2)(3); // 6
 curriedSum(1)(2, 3); // 6
 ```
+--
+
+### Curry, `from the inside`
+
+For those, who are curious:
+
+```
+const curry = fn => // takes function
+  // returns a function to await for all arguments
+  (...args) =>
+    // if not all arguments provided
+    args.length < fn.length
+      // return curried function which accumulates arguments
+      ? (...newArgs) => curry(fn)(...args.concat(newArgs))
+      // if all arguments are provided,
+      // just invoke function with them
+      : fn(...args)
+
+const sum = curry( (a, b) => a + b);
+
+sum(1)(2); // 3
+sum(1, 2); // 3;
+```
+
 --
 
 ### Curry, why? `double case`
@@ -322,7 +360,7 @@ double(50); // multiply(2, 50) → 100
 ### Curry, why? `another shot`
 
 ```
-// OBS: exponent is first argument, base is last
+// NOTE: exponent is first argument, base is last
 const power = curry( (exponent, base) => {
   return Math.pow(base, exponent);
 } );
@@ -338,7 +376,7 @@ square(3); // power(2, 3) → 9
 ```
 cont add = curry( (x, y) => x + y );
 
-const inc = add(1); // y => add(1, y)
+const inc = add(1); // y → add(1, y)
 
 inc(1); // add(1, 1) → 2
 ```
@@ -391,7 +429,6 @@ censored('Chocolate Rain');
 * curry it and derive more specific functions
 * *obs* data is last
 
-
 --
 
 ### Functional composition
@@ -404,6 +441,20 @@ censored('Chocolate Rain');
 
 ### Functional composition
 
+* Takes functions, returns composed function
+* Returns composed function which takes `arguments`
+* Invokes (right to left) each passed function after each other
+* Every next function will get calculation result of previous one.
+
+`f(g(x)) === compose(f, g)(x)`, in short
+
+
+---
+
+### Functional composition, `simple`
+
+It just works™
+
 ```
 var compose = function(f, g) {
   return function(x) {
@@ -412,8 +463,7 @@ var compose = function(f, g) {
 };
 var alsoCompose = (f, g) => x => f(g(x));
 ```
-
----
+--
 
 ### Functional composition, `shout case`
 
@@ -432,21 +482,43 @@ alsoShout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 --
 
-### Functional composition, `compose, broad sense`
+### Functional composition, `in depth`
+
+
+For those, who are curious:
 
 ```
-// compose :: ...functions -> function
+const compose = (...fns) => // Takes functions
+  // Returns composed function
+  (...args) =>  // which takes `arguments`
+    // Invokes (right to left) each passed function after each other
+    fns.reduceRight(
+      (result, fn) => {
+        // right most function can take any arguments
+        // every other function can take only one argument
+        return Array.isArray(result)
+          ? fn(...result)
+          : fn(result);
+      },
+      args
+    )
+```
 
+--
+
+### Functional composition, `example`
+
+```
 // keywords(' hello,, world'); // ['hello', 'world']
 // function needs to validate, split, trim and filter
 const keywords1 = input =>
   filter(trim(split(validate(input))));
 
 const keywords2 = input => compose(
-  filter, trim, split, validate // OBS: right to left
+  filter, trim, split, validate // NOTE: right to left
 )(input);
 
-// though input => compose(…)(input) === compose(…)
+// though input => compose(…)(input) === compose(…), so
 const keywords  = compose(filter, trim, split, validate);
 
 keywords(' hello,, world'); // ['hello', 'world']
@@ -454,11 +526,16 @@ keywords(' hello,, world'); // ['hello', 'world']
 
 --
 
-### Functional composition, `compose, broad sense`
+### Functional composition
+### `summary example`
 
 ```
-const keywords = input => filter(trim(split(validate(input))));
-const alsoKeywords  = compose(filter, trim, split, validate);
+const keywords = input =>
+  filter(trim(split(validate(input))));
+
+const alsoKeywords = compose(
+  filter, trim, split, validate
+);
 ```
 
 **Problem:**  
@@ -469,22 +546,24 @@ humans read from left to right, not other way around.
 ### Functional composition,  
 ### `pipe to the rescue`
 
+reversed compose, in short
+
 ```
-// pipe :: ...functions -> function
-// const pipe = (...functions) => {
-//  return compose(functions.reverse())
-// }
+const pipe = (...fns) => compose(...fns.reverse())
 
 // keywords(' hello,, world'); // ['hello', 'world']
 // so you have a function which needs
 // to validate, split, trim and filter
 const keywords = pipe(validate, split, trim, filter);
+// NOTE: same order as we described in spec
+
 keywords(' hello,, world'); // ['hello', 'world']
 ```
 
 --
 
-### Functional composition, `pipe as Unix pipe`
+### Functional composition
+### `pipe as Unix pipe`
 
 * LiSt node_modules content
 * Word Count by -lines
@@ -496,7 +575,8 @@ keywords(' hello,, world'); // ['hello', 'world']
 
 ---
 
-### Functional composition, `pipe as Promise.then chain`
+### Functional composition
+### `pipe as Promise.then chain`
 
 ```
 /* const keywords = pipe(
@@ -505,6 +585,7 @@ keywords(' hello,, world'); // ['hello', 'world']
   trim,
   filter
 ); */
+
 const keywords = str => Promise.resolve(str)
   .then(validate)
   .then(split)
