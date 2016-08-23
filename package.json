@@ -4,7 +4,10 @@
   "description": "real world fp",
   "main": "index.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "buildbranch": "^1.0.0",
+    "cleaver": "^0.8.2"
+  },
   "scripts": {
     "test": "echo 'No tests here, go away'"
   },
