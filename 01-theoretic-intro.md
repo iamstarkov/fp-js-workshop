@@ -144,7 +144,7 @@ arr3; // [1] wtf mutation
 ### Side effects and FP
 
 We are not prohibiting side effects, but more like controlling them.
-Because without them we cant do anything useful for real world.
+Because without them we can't do anything useful for real world.
 
 --
 
