@@ -17,5 +17,9 @@ echo "# build 01-theoretic-intro"
 mkdir dist/01-theoretic-intro
 cleaver 01-theoretic-intro.md --output dist/01-theoretic-intro/index.html
 
+echo "# build 02-practical-intro"
+mkdir dist/02-practical-intro
+cleaver 02-practical-intro.md --output dist/02-practical-intro/index.html
+
 echo "# deploy dist to gh-pages"
 buildbranch gh-pages dist
