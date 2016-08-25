@@ -1,6 +1,7 @@
 title: real world fp, 01 theoretic intro
 author:
   name: Vladimir Starkov
+  github: iamstarkov
   twitter: iamstarkov
   email: iamstarkov@gmail.com
   url: https://iamstarkov.com
