@@ -5,7 +5,7 @@ author:
   email: iamstarkov@gmail.com
   url: https://iamstarkov.com
 output: 01-theoretic-intro.html
-theme: jdan/cleaver-retro
+theme: sudodoki/reveal-cleaver-theme
 style: css/custom.css
 controls: true
 
@@ -30,7 +30,7 @@ Easy to understand, read, test and debug
 
 ### declarative vs imperative
 
-```
+```javascript
 function imperativeDoubleArray(arr) {
   var result = [];
   for (var i = 0, i++, i<arr.length) {
@@ -42,11 +42,12 @@ function imperativeDoubleArray(arr) {
 const double = i => i * 2;
 const declarativeDoubleArray = arr => arr.map(double);
 ```
+
 --
 
 ### mathematical function `f(x)`
 
-> In mathematics, a function is a relation between a set of inputs and a set of permissible outputs with the property that each input is related to exactly one output. `f(x)`. aka pure function in computer science
+> Function is a relation between a set of inputs and a set of permissible outputs with the property that each input is related to exactly one output. `f(x)`. aka pure function in computer science  
 > — [Wikipedia][wiki1]
 
 *same input = same output, in short*
@@ -57,13 +58,13 @@ const declarativeDoubleArray = arr => arr.map(double);
 ### Pure function
 
 > A pure function is a function that, given the same input, will always return the same output and does not have any observable side effect.  
-> — [Professor Frisby, "Mostly adequate guide to FP"](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html#oh-to-be-pure-again)
+> — ["Mostly adequate guide to FP"](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html#oh-to-be-pure-again)
 
 --
 
 ### Pure function, in examples
 
-```
+```javascript
 // pure
 const multiply = (x, y) => x * y;
 const double = x => x * 2;
@@ -266,7 +267,7 @@ On the other side, with composition:
 * Curried function doesnt need all arguments to be provided from the start
 * Curried function will postpone calculation until it gets all needed arguments, meanwhile returning function to consume arguments which left
 
----
+--
 
 ### Curry
 
