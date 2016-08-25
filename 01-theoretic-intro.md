@@ -555,7 +555,7 @@ const pipe = (headFN, ...restFns) =>
       (value, fn) => fn(value),
       // reduce's initial value is a left most function's result
       headFN(...args),
-  );
+    );
 
 const compose = (...fns) => pipe(...fns.reverse());
 ```
