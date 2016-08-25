@@ -1,12 +1,11 @@
-title: real world fp. #1 theoretic intro
+title: real world fp, 01 theoretic intro
 author:
   name: Vladimir Starkov
   twitter: iamstarkov
   email: iamstarkov@gmail.com
   url: https://iamstarkov.com
 output: 01-theoretic-intro.html
-theme: jdan/cleaver-retro
-style: css/custom.css
+theme: sudodoki/reveal-cleaver-theme
 controls: true
 
 --
@@ -19,7 +18,7 @@ Easy to understand, read, test and debug
 
 --
 
-### Functional programming
+## Functional programming
 
 * declarative programming paradigm
 * computation as the evaluation of mathematical functions
@@ -28,9 +27,9 @@ Easy to understand, read, test and debug
 
 --
 
-### declarative vs imperative
+## declarative vs imperative
 
-```
+```javascript
 function imperativeDoubleArray(arr) {
   var result = [];
   for (var i = 0, i++, i<arr.length) {
@@ -42,11 +41,12 @@ function imperativeDoubleArray(arr) {
 const double = i => i * 2;
 const declarativeDoubleArray = arr => arr.map(double);
 ```
+
 --
 
-### mathematical function `f(x)`
+## mathematical function, `f(x)`
 
-> In mathematics, a function is a relation between a set of inputs and a set of permissible outputs with the property that each input is related to exactly one output. `f(x)`. aka pure function in computer science
+> Function is a relation between a set of inputs and a set of permissible outputs with the property that each input is related to exactly one output. `f(x)`. aka pure function in computer science  
 > — [Wikipedia][wiki1]
 
 *same input = same output, in short*
@@ -54,16 +54,16 @@ const declarativeDoubleArray = arr => arr.map(double);
 
 --
 
-### Pure function
+## Pure function
 
 > A pure function is a function that, given the same input, will always return the same output and does not have any observable side effect.  
-> — [Professor Frisby, "Mostly adequate guide to FP"](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html#oh-to-be-pure-again)
+> — ["Mostly adequate guide to FP"](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html#oh-to-be-pure-again)
 
 --
 
-### Pure function, in examples
+## Pure function, in examples
 
-```
+```javascript
 // pure
 const multiply = (x, y) => x * y;
 const double = x => x * 2;
@@ -80,7 +80,7 @@ var checkAge = function(age) {
 
 --
 
-### Pure function
+## Pure function
 
 * Predictability, with [immutability](https://iamstarkov.com/why-immutability-matters/)
 * Referential Transparency
@@ -91,13 +91,12 @@ var checkAge = function(age) {
 
 --
 
-### avoids changing-state
+## avoids changing-state
 
-**global variables** makes your function unpredictable.
+* **global variables** makes your function unpredictable
+* **state, internal variables**, same as global variables but from within
 
-**state, internal variables**, same as global variables but from within
-
-```
+```javascript
 console.log('sup /js/') // 'sup /js/'
 
 const log = console.log;
@@ -108,7 +107,7 @@ log('sup /js/'); // TypeError: 'log' called on an object…
 
 --
 
-### Side effects
+## Side effects
 
 * changing the file system
 * database operations
@@ -121,9 +120,9 @@ log('sup /js/'); // TypeError: 'log' called on an object…
 
 --
 
-### Side effects, exactly
+## Side effects, exactly
 
-```
+```javascript
 // mutation, aka side-effects
 var arr1 = [1, 3, 2];
 arr1.sort(); // [1, 2, 3]
@@ -143,32 +142,32 @@ arr3; // [1] wtf mutation
 
 --
 
-### Side effects and FP
+## Side effects and FP
 
 We are not prohibiting side effects, but more like controlling them.
 Because without them we can't do anything useful for real world.
 
 --
 
-### Functional Composition
+## Functional Composition
 
 As a part of an answer, why not OOP.
 
 --
 
-### why not oop #1
+## why not oop #1
 
 > I made up the term 'object-oriented', and I can tell you I didn't have C++ in mind  
-> -- [Alan Kay, OOPSLA '97](http://programmers.stackexchange.com/a/58732/56648)
+> — [Alan Kay, OOPSLA '97](http://programmers.stackexchange.com/a/58732/56648)
 
 * objects: biological cells only able to communicate with messages
 * objects could have several algebras associated with it
-* inheritance came from Simula `// TODO: reimplement, when understand how do it better © Alan Kay`
+* inheritance came from Simula `// TODO: bad implementation, reimplement, when understand how do it better © Alan Kay`
 * polymorhism invented later and isnt quite correct.
 
 --
 
-### why not oop #2
+## why not oop #2
 
 > You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.  
 > — [Joe Armstrong][jungle], creator of Erlang in the "Coders at Work".
@@ -177,7 +176,8 @@ As a part of an answer, why not OOP.
 
 --
 
-### why not oop #3, composition&nbsp;over&nbsp;inheritance
+## why not oop #3,
+### composition over inheritance
 
 Few following slides will briefly describe a problem with inheritance
 
@@ -185,10 +185,10 @@ Few following slides will briefly describe a problem with inheritance
 
 --
 
-### why not oop #3, composition&nbsp;over&nbsp;inheritance
+## why not oop #3,
+### composition over inheritance
 
-
-```
+```javascript
 Robot
   .drive()
     MurderRobot
@@ -206,17 +206,20 @@ Animal
 
 --
 
-### why not oop #3, composition&nbsp;over&nbsp;inheritance
+## why not oop #3,
+### composition over inheritance
 
 > Our customers demand MurderRobotDog  
-> — Sincerely, yours manager. ` // every once in a while`
+> — Sincerely, yours manager.  
+> ` // every once in a while`
 
-But robots do not have digestive system to be able to poop.
+But robots do not have digestive system to be able to poop.  
 No good way to refactor.
 
 --
 
-### why not oop #4, composition&nbsp;over&nbsp;inheritance
+## why not oop #4,
+### composition over inheritance
 
 On the other side, with composition:
 * Dog: pooper + barker
@@ -228,7 +231,7 @@ On the other side, with composition:
 
 --
 
-### why not oop, summary
+## why not oop, summary
 
 * its not oop from the start
 * [even erlang is more oop in the original OOP sense](https://www.youtube.com/watch?v=YaUPdgtUYko)
@@ -236,14 +239,11 @@ On the other side, with composition:
 
 --
 
-<img
-  style="min-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src='http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif'
-  />
+<img style="min-width: 80%" src="http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif" />
 
 --
 
-### FP utilities belt
+## FP utilities belt
 
 * curry
 * compose
@@ -251,26 +251,23 @@ On the other side, with composition:
 
 --
 
-### Curry
+## Curry
 
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src='https://smithwealth.com.au/wp-content/uploads/2015/11/Curry_2710104b.jpg'
-  />
+![](https://smithwealth.com.au/wp-content/uploads/2015/11/Curry_2710104b.jpg)
 
 --
 
-### Curry
+## Curry
 
 * Takes function, returns curried function
 * Curried function doesnt need all arguments to be provided from the start
 * Curried function will postpone calculation until it gets all needed arguments, meanwhile returning function to consume arguments which left
 
----
+--
 
-### Curry
+## Curry
 
-```
+```javascript
 // naive simple currying
 var add = function(x) {
   return function(y) {
@@ -285,11 +282,11 @@ add(1)(2) === alsoAdd(1)(2) === 3; // true
 
 --
 
-### Curry, `as a blackbox`
+## Curry, (as a blackbox)
 
 It just works™
 
-```
+```javascript
 const sum = (a, b, c) => a + b + c;
 sum(1, 2, 3); // 6
 
@@ -301,11 +298,11 @@ curriedSum(1)(2, 3); // 6
 ```
 --
 
-### Curry, `from the inside`
+## Curry, (from the inside)
 
 For those, who are curious:
 
-```
+```javascript
 const curry = fn => // takes function
   // returns a function to await for all arguments
   (...args) =>
@@ -320,17 +317,17 @@ const curry = fn => // takes function
 
 --
 
-### Curry, why? `double case`
+## Curry, why? (double case)
 
-```
+```javascript
 const double = x => x * 2;
 ```
 
 --
 
-### Curry, why? `double case`
+## Curry, why? (double case)
 
-```
+```javascript
 const multiply = (x, y) => x * y;
 const double = x => multiply(x, 2);
 const alsoDouble = y => multiply(2, y);
@@ -338,9 +335,9 @@ const alsoDouble = y => multiply(2, y);
 
 --
 
-### Curry, why? `double case`
+## Curry, why? (double case)
 
-```
+```javascript
 const multiply = (x, y) => x * y;
 const curriedMultiply = curry(multiply);
 
@@ -352,9 +349,9 @@ double(50); // multiply(2, 50) → 100
 
 --
 
-### Curry, why? `another shot`
+## Curry, why? (another shot)
 
-```
+```javascript
 // NOTE: exponent is first argument, base is last
 const power = curry( (exponent, base) => {
   return Math.pow(base, exponent);
@@ -366,9 +363,9 @@ square(3); // power(2, 3) → 9
 ```
 --
 
-### Curry, why? `another shot`
+## Curry, why? (another shot)
 
-```
+```javascript
 cont add = curry( (x, y) => x + y );
 
 const inc = add(1); // y → add(1, y)
@@ -377,9 +374,9 @@ inc(1); // add(1, 1) → 2
 ```
 --
 
-### Curry, why? `another shot`
+## Curry, why? (another shot)
 
-```
+```javascript
 const match = curry( (pattern, str) => str.match(pattern) );
 
 const hasSpaces = match(/\s+/g);
@@ -394,9 +391,9 @@ hasSpaces('spaceless');
 
 --
 
-### Curry, why? `another shot`
+## Curry, why? (another shot)
 
-```
+```javascript
 // three arguments in original function
 const replace = curry( function (pattern, replacement, str) {
   return str.replace(pattern, replacement);
@@ -417,7 +414,7 @@ censored('Chocolate Rain');
 
 --
 
-### Curry, summary
+## Curry, summary
 
 * do not write extra code
 * write one wide purpose function
@@ -426,15 +423,13 @@ censored('Chocolate Rain');
 
 --
 
-### Functional composition
+## Functional composition
 
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src="http://mattiasfest.in/images/composition.jpg" />
+![](http://mattiasfest.in/images/composition.jpg)
 
 --
 
-### Functional composition
+## Functional composition
 
 * Takes functions, returns composed function
 * Returns composed function which takes `arguments`
@@ -447,11 +442,11 @@ censored('Chocolate Rain');
 
 ---
 
-### Functional composition, `simple`
+## Functional composition, (simple)
 
 It just works™
 
-```
+```javascript
 var compose = function(f, g) {
   return function(x) {
     return f(g(x));
@@ -461,9 +456,9 @@ var alsoCompose = (f, g) => x => f(g(x));
 ```
 --
 
-### Functional composition, `shout case`
+## Functional composition, (shout case)
 
-```
+```javascript
 const compose = (f, g) => x => f(g(x));
 // compose(f, g)(x) ≣ f(g(x))
 
@@ -478,12 +473,11 @@ alsoShout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 --
 
-### Functional composition, `in depth`
-
+## Functional composition, (in depth)
 
 For those, who are curious:
 
-```
+```javascript
 const compose = (...fns) => { // Takes functions
   // separate right most function from rest functions
   const [tailFn, ...restFns] = fns.reverse();
@@ -498,13 +492,16 @@ const compose = (...fns) => { // Takes functions
     );
   };
 };
+
+// pipe is reversed compose, more human friendly
+const pipe = (...fns) => compose(...fns.reverse());
 ```
 
 --
 
-### Functional composition, `example`
+## Functional composition, (example)
 
-```
+```javascript
 // keywords(' hello,, world'); // ['hello', 'world']
 // function needs to validate, split, trim and filter
 const keywords1 = input =>
@@ -522,10 +519,9 @@ keywords(' hello,, world'); // ['hello', 'world']
 
 --
 
-### Functional composition
-### `summary example`
+## Functional composition (summary example)
 
-```
+```javascript
 const keywords = input =>
   filter(trim(split(validate(input))));
 
@@ -534,47 +530,67 @@ const alsoKeywords = compose(
 );
 ```
 
-**Problem:**  
-humans read from left to right, not other way around.
+*Problem:* humans read from left to right, not other way around.
 
 --
 
-### Functional composition,  
-### `pipe to the rescue`
+## Functional composition, (pipe to the rescue)
 
-reversed compose, in short
+Reversed compose, in short
 
-```
+```javascript
 const pipe = (...fns) => compose(...fns.reverse())
+```
+or
 
+```javascript
+// takes functions
+// separate left most function from rest functions
+const pipe = (headFN, ...restFns) =>
+  // return piped function,
+  (...args) => // which takes any arguments
+    // invoke rest functions after each other
+    restFns.reduce(
+      // each function takes result of previous one
+      (value, fn) => fn(value),
+      // reduce's initial value is a left most function's result
+      headFN(...args),
+    );
+
+const compose = (...fns) => pipe(...fns.reverse());
+```
+
+---
+
+## Functional composition, (pipe to the rescue #2)
+
+```javascript
 // keywords(' hello,, world'); // ['hello', 'world']
 // so you have a function which needs
-// to validate, split, trim and filter
+//                 to validate, split, trim and filter
 const keywords = pipe(validate, split, trim, filter);
-// NOTE: same order as we described in spec
+// NOTE: same order as we described in requirements
 
 keywords(' hello,, world'); // ['hello', 'world']
 ```
 
 --
 
-### Functional composition
-### `pipe as Unix pipe`
+## Functional composition (pipe as Unix pipe)
 
 * LiSt node_modules content
 * Word Count by -lines
 
-```
+```bash
 ➜  rollup git:(master) ls node_modules | wc -l
      350
 ```
 
 ---
 
-### Functional composition
-### `pipe as Promise.then chain`
+## Functional composition (pipe as Promise.then chain)
 
-```
+```javascript
 /* const keywords = pipe(
   validate,
   split,
@@ -591,16 +607,15 @@ const keywords = str => Promise.resolve(str)
 
 --
 
-### Functional Programming, summary
+## Functional Programming, summary
 
 Functions takes functions and returns functions
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src="http://img2-ak.lst.fm/i/u/arO/2a6031c9d53d48fda501d84bac7089ff">
 
--- drop-mic
+![](http://img2-ak.lst.fm/i/u/arO/2a6031c9d53d48fda501d84bac7089ff)
 
-### Functional Programming, summary
+--
+
+## Functional Programming, summary
 
 * pure functions
 * avoid side effects
@@ -608,13 +623,15 @@ Functions takes functions and returns functions
 * derive more specific functions from them with `curry`
 * `compose` existing functions to create new ones
 * declare your data flow with `pipe`
-* have fun<span>ctions <br> <img
-  style="max-height: 100px; display: block; margin: 0 auto;"
-  src="https://img.rt.com/files/2016.05/original/5725d86ac46188bd038b45a1.jpg"></span>
+* have fun and functions
 
 --
 
-### Functional Programming, further reading
+![](https://img.rt.com/files/2016.05/original/5725d86ac46188bd038b45a1.jpg)
+
+--
+
+## Functional Programming, further reading
 
 * [Mostly adequate guide to FP (in javascript)](https://github.com/MostlyAdequate/mostly-adequate-guide), book
 * [Purity and Side effects](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html), article
@@ -624,27 +641,25 @@ Functions takes functions and returns functions
 * [Alan Kay about OOP](http://programmers.stackexchange.com/a/58732/56648), article
 * [Joe Armstrong about OOP](http://www.johndcook.com/blog/2011/07/19/you-wanted-banana/), article
 * [Joe Armstrong about Erlang is being more OOP than C++](https://www.youtube.com/watch?v=YaUPdgtUYko), video
-* [Composition over Inheritance][comp-over-inher] in [funfunfunction][funx3] by [@mpjme][mpjme], video
+* [Composition over Inheritance][comp-over-inher] by [@mpjme][mpjme], video
 
 [curry-def]: https://en.wikipedia.org/wiki/Currying
 [curry-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html#cant-live-if-livin-is-without-you
 [compose-def]: https://en.wikipedia.org/wiki/Function_composition_(computer_science)
 [compose-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
 [comp-over-inher]: https://youtu.be/wfMtDGfHWpA
-[funx3]: https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q
 [mpjme]: twitter.com/mpjme
-
 
 --
 
-### Functional Programming, `recursion`
+## Functional Programming, (recursion)
 
-You can find more about "real world fp" workshop in the github repo
+* You can find more about "real world fp" workshop in the github repo
 https://github.com/iamstarkov/fp-js-workshop
 
-This presentation is available on url  
+* This presentation is available on url
 https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/.
 
-To be continued with "#2 Practical intro".
+* To be continued with "#2 Practical intro"
 
-Stay tuned.
+* *Stay tuned*
