@@ -6,7 +6,6 @@ author:
   url: https://iamstarkov.com
 output: 01-theoretic-intro.html
 theme: sudodoki/reveal-cleaver-theme
-style: css/custom.css
 controls: true
 
 --
@@ -94,11 +93,10 @@ var checkAge = function(age) {
 
 ### avoids changing-state
 
-**global variables** makes your function unpredictable.
+* **global variables** makes your function unpredictable
+* **state, internal variables**, same as global variables but from within
 
-**state, internal variables**, same as global variables but from within
-
-```
+```javascript
 console.log('sup /js/') // 'sup /js/'
 
 const log = console.log;
@@ -124,7 +122,7 @@ log('sup /js/'); // TypeError: 'log' called on an object…
 
 ### Side effects, exactly
 
-```
+```javascript
 // mutation, aka side-effects
 var arr1 = [1, 3, 2];
 arr1.sort(); // [1, 2, 3]
@@ -160,11 +158,11 @@ As a part of an answer, why not OOP.
 ### why not oop #1
 
 > I made up the term 'object-oriented', and I can tell you I didn't have C++ in mind  
-> -- [Alan Kay, OOPSLA '97](http://programmers.stackexchange.com/a/58732/56648)
+> — [Alan Kay, OOPSLA '97](http://programmers.stackexchange.com/a/58732/56648)
 
 * objects: biological cells only able to communicate with messages
 * objects could have several algebras associated with it
-* inheritance came from Simula `// TODO: reimplement, when understand how do it better © Alan Kay`
+* inheritance came from Simula `// TODO: bad implementation, reimplement, when understand how do it better © Alan Kay`
 * polymorhism invented later and isnt quite correct.
 
 --
@@ -188,8 +186,7 @@ Few following slides will briefly describe a problem with inheritance
 
 ### why not oop #3, composition&nbsp;over&nbsp;inheritance
 
-
-```
+```javascript
 Robot
   .drive()
     MurderRobot
@@ -210,9 +207,10 @@ Animal
 ### why not oop #3, composition&nbsp;over&nbsp;inheritance
 
 > Our customers demand MurderRobotDog  
-> — Sincerely, yours manager. ` // every once in a while`
+> — Sincerely, yours manager.  
+> ` // every once in a while`
 
-But robots do not have digestive system to be able to poop.
+But robots do not have digestive system to be able to poop.  
 No good way to refactor.
 
 --
@@ -237,10 +235,7 @@ On the other side, with composition:
 
 --
 
-<img
-  style="min-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src='http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif'
-  />
+<img style="min-width: 80%" src="http://www.reactiongifs.com/r/2013/10/tim-and-eric-mind-blown.gif" />
 
 --
 
@@ -254,10 +249,7 @@ On the other side, with composition:
 
 ### Curry
 
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src='https://smithwealth.com.au/wp-content/uploads/2015/11/Curry_2710104b.jpg'
-  />
+![](https://smithwealth.com.au/wp-content/uploads/2015/11/Curry_2710104b.jpg)
 
 --
 
@@ -271,7 +263,7 @@ On the other side, with composition:
 
 ### Curry
 
-```
+```javascript
 // naive simple currying
 var add = function(x) {
   return function(y) {
@@ -286,11 +278,11 @@ add(1)(2) === alsoAdd(1)(2) === 3; // true
 
 --
 
-### Curry, `as a blackbox`
+### Curry, (as a blackbox)
 
 It just works™
 
-```
+```javascript
 const sum = (a, b, c) => a + b + c;
 sum(1, 2, 3); // 6
 
@@ -302,11 +294,11 @@ curriedSum(1)(2, 3); // 6
 ```
 --
 
-### Curry, `from the inside`
+### Curry, (from the inside)
 
 For those, who are curious:
 
-```
+```javascript
 const curry = fn => // takes function
   // returns a function to await for all arguments
   (...args) =>
@@ -321,17 +313,17 @@ const curry = fn => // takes function
 
 --
 
-### Curry, why? `double case`
+### Curry, why? (double case)
 
-```
+```javascript
 const double = x => x * 2;
 ```
 
 --
 
-### Curry, why? `double case`
+### Curry, why? (double case)
 
-```
+```javascript
 const multiply = (x, y) => x * y;
 const double = x => multiply(x, 2);
 const alsoDouble = y => multiply(2, y);
@@ -339,9 +331,9 @@ const alsoDouble = y => multiply(2, y);
 
 --
 
-### Curry, why? `double case`
+### Curry, why? (double case)
 
-```
+```javascript
 const multiply = (x, y) => x * y;
 const curriedMultiply = curry(multiply);
 
@@ -353,9 +345,9 @@ double(50); // multiply(2, 50) → 100
 
 --
 
-### Curry, why? `another shot`
+### Curry, why? (another shot)
 
-```
+```javascript
 // NOTE: exponent is first argument, base is last
 const power = curry( (exponent, base) => {
   return Math.pow(base, exponent);
@@ -367,9 +359,9 @@ square(3); // power(2, 3) → 9
 ```
 --
 
-### Curry, why? `another shot`
+### Curry, why? (another shot)
 
-```
+```javascript
 cont add = curry( (x, y) => x + y );
 
 const inc = add(1); // y → add(1, y)
@@ -378,9 +370,9 @@ inc(1); // add(1, 1) → 2
 ```
 --
 
-### Curry, why? `another shot`
+### Curry, why? (another shot)
 
-```
+```javascript
 const match = curry( (pattern, str) => str.match(pattern) );
 
 const hasSpaces = match(/\s+/g);
@@ -395,9 +387,9 @@ hasSpaces('spaceless');
 
 --
 
-### Curry, why? `another shot`
+### Curry, why? (another shot)
 
-```
+```javascript
 // three arguments in original function
 const replace = curry( function (pattern, replacement, str) {
   return str.replace(pattern, replacement);
@@ -429,9 +421,7 @@ censored('Chocolate Rain');
 
 ### Functional composition
 
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src="http://mattiasfest.in/images/composition.jpg" />
+![](http://mattiasfest.in/images/composition.jpg)
 
 --
 
@@ -448,11 +438,11 @@ censored('Chocolate Rain');
 
 ---
 
-### Functional composition, `simple`
+### Functional composition, (simple)
 
 It just works™
 
-```
+```javascript
 var compose = function(f, g) {
   return function(x) {
     return f(g(x));
@@ -462,9 +452,9 @@ var alsoCompose = (f, g) => x => f(g(x));
 ```
 --
 
-### Functional composition, `shout case`
+### Functional composition, (shout case)
 
-```
+```javascript
 const compose = (f, g) => x => f(g(x));
 // compose(f, g)(x) ≣ f(g(x))
 
@@ -479,12 +469,11 @@ alsoShout('send in the clowns'); // "SEND IN THE CLOWNS!"
 ```
 --
 
-### Functional composition, `in depth`
-
+### Functional composition, (in depth)
 
 For those, who are curious:
 
-```
+```javascript
 const compose = (...fns) => { // Takes functions
   // separate right most function from rest functions
   const [tailFn, ...restFns] = fns.reverse();
@@ -499,13 +488,16 @@ const compose = (...fns) => { // Takes functions
     );
   };
 };
+
+ // pipe is reversed compose, more human friendly
+const pipe = (...fns) => compose(...fns.reverse());
 ```
 
 --
 
-### Functional composition, `example`
+### Functional composition, (example)
 
-```
+```javascript
 // keywords(' hello,, world'); // ['hello', 'world']
 // function needs to validate, split, trim and filter
 const keywords1 = input =>
@@ -523,10 +515,9 @@ keywords(' hello,, world'); // ['hello', 'world']
 
 --
 
-### Functional composition
-### `summary example`
+### Functional composition (summary example)
 
-```
+```javascript
 const keywords = input =>
   filter(trim(split(validate(input))));
 
@@ -535,47 +526,59 @@ const alsoKeywords = compose(
 );
 ```
 
-**Problem:**  
-humans read from left to right, not other way around.
+*Problem:* humans read from left to right, not other way around.
 
 --
 
-### Functional composition,  
-### `pipe to the rescue`
+### Functional composition, (pipe to the rescue)
 
-reversed compose, in short
+Reversed compose, in short
 
-```
+```javascript
 const pipe = (...fns) => compose(...fns.reverse())
+```
+or
 
+```javascript
+const pipe = (headFN, ...restFns) => (...args) => restFns.reduce(
+  (value, fn) => fn(value),
+  headFN(...args),
+);
+
+const compose = (...fns) => pipe(...fns.reverse());
+```
+
+---
+
+### Functional composition, (pipe to the rescue #2)
+
+```javascript
 // keywords(' hello,, world'); // ['hello', 'world']
 // so you have a function which needs
-// to validate, split, trim and filter
+//                 to validate, split, trim and filter
 const keywords = pipe(validate, split, trim, filter);
-// NOTE: same order as we described in spec
+// NOTE: same order as we described in requirements
 
 keywords(' hello,, world'); // ['hello', 'world']
 ```
 
 --
 
-### Functional composition
-### `pipe as Unix pipe`
+### Functional composition (pipe as Unix pipe)
 
 * LiSt node_modules content
 * Word Count by -lines
 
-```
+```bash
 ➜  rollup git:(master) ls node_modules | wc -l
      350
 ```
 
 ---
 
-### Functional composition
-### `pipe as Promise.then chain`
+### Functional composition (pipe as Promise.then chain)
 
-```
+```javascript
 /* const keywords = pipe(
   validate,
   split,
@@ -595,11 +598,10 @@ const keywords = str => Promise.resolve(str)
 ### Functional Programming, summary
 
 Functions takes functions and returns functions
-<img
-  style="max-width: 100%; max-height: 100%; display: block; margin: 0 auto;"
-  src="http://img2-ak.lst.fm/i/u/arO/2a6031c9d53d48fda501d84bac7089ff">
 
--- drop-mic
+![](http://img2-ak.lst.fm/i/u/arO/2a6031c9d53d48fda501d84bac7089ff)
+
+--
 
 ### Functional Programming, summary
 
@@ -609,9 +611,11 @@ Functions takes functions and returns functions
 * derive more specific functions from them with `curry`
 * `compose` existing functions to create new ones
 * declare your data flow with `pipe`
-* have fun<span>ctions <br> <img
-  style="max-height: 100px; display: block; margin: 0 auto;"
-  src="https://img.rt.com/files/2016.05/original/5725d86ac46188bd038b45a1.jpg"></span>
+* have fun and functions
+
+--
+
+![](https://img.rt.com/files/2016.05/original/5725d86ac46188bd038b45a1.jpg)
 
 --
 
@@ -625,27 +629,25 @@ Functions takes functions and returns functions
 * [Alan Kay about OOP](http://programmers.stackexchange.com/a/58732/56648), article
 * [Joe Armstrong about OOP](http://www.johndcook.com/blog/2011/07/19/you-wanted-banana/), article
 * [Joe Armstrong about Erlang is being more OOP than C++](https://www.youtube.com/watch?v=YaUPdgtUYko), video
-* [Composition over Inheritance][comp-over-inher] in [funfunfunction][funx3] by [@mpjme][mpjme], video
+* [Composition over Inheritance][comp-over-inher] by [@mpjme][mpjme], video
 
 [curry-def]: https://en.wikipedia.org/wiki/Currying
 [curry-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html#cant-live-if-livin-is-without-you
 [compose-def]: https://en.wikipedia.org/wiki/Function_composition_(computer_science)
 [compose-expl]: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
 [comp-over-inher]: https://youtu.be/wfMtDGfHWpA
-[funx3]: https://www.youtube.com/channel/UCO1cgjhGzsSYb1rsB4bFe4Q
 [mpjme]: twitter.com/mpjme
-
 
 --
 
-### Functional Programming, `recursion`
+### Functional Programming, (recursion)
 
-You can find more about "real world fp" workshop in the github repo
+* You can find more about "real world fp" workshop in the github repo
 https://github.com/iamstarkov/fp-js-workshop
 
-This presentation is available on url  
+* This presentation is available on url
 https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/.
 
-To be continued with "#2 Practical intro".
+* To be continued with "#2 Practical intro"
 
-Stay tuned.
+* *Stay tuned*
