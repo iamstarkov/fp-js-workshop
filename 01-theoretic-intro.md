@@ -1,4 +1,4 @@
-title: real world fp. #1 theoretic intro
+title: real world fp, 01 theoretic intro
 author:
   name: Vladimir Starkov
   twitter: iamstarkov
