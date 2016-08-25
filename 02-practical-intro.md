@@ -257,6 +257,8 @@ const keywords = input => {
 ```
 ~~simple, readable, debug~~, tests
 
+--
+
 ## gather specification
 
 Function needs to:
@@ -264,7 +266,8 @@ Function needs to:
 * validate it
 * split it
 * map trim it
-* reject empty lines
+* reject empty
+* summary: validate, split, map trim, reject empty
 
 Can we write code as easy as this specification?
 
@@ -357,18 +360,124 @@ Variables are useless except for passing them to next function.
 
 --
 
-## naive compose
+## naive compose, preparation
 
 ```javascript
 const keywords = input => {
   var validInput = validate(input);
-  var inputArray = validInput.split(',');
-  var trimmedArray = inputArray.map(trim);
-  var filteredArray = trimmedArray.filter(isNotEmpty);
+  var inputArray = validInput.split(','); // str => str.split(',');
+  var trimmedArray = inputArray.map(trim); // arr => arr.map(trim)
+  var filteredArray = trimmedArray.filter(isNotEmpty); // arr => arr.filter(isNotEmpty)
   return filteredArray;
 }
 ```
 --
+
+## naive compose, function extraction
+
+```javascript
+// validate already defined
+const split = str => str.split(',');
+const mapTrim = arr => arr.map(trim);
+const filterNonEmptyStrings = arr => arr.filter(isNotEmpty);
+
+const keywords = input => {
+  return filterNonEmptyStrings( mapTrim( split( validate(input) ) ));
+}
+```
+
+perfect for `compose()`!
+
+--
+
+## proper compose
+
+
+```javascript
+// validate already defined
+const split = str => str.split(',');
+const mapTrim = arr => arr.map(trim);
+const filterNonEmptyStrings = arr => arr.filter(isNotEmpty);
+
+const keywords = input => {
+  return compose(
+    // filterNonEmptyStrings( mapTrim( split( validate(input) ) ));
+    filterNonEmptyStrings, mapTrim, split, validate
+  )(input);
+}
+```
+--
+
+## proper compose, improvement
+
+```javascript
+httpGet('/post/2', function(json, err) {
+  return renderPost(json, err);
+});
+// same as
+httpGet(renderPost);
+```
+--
+
+## proper compose, improvement
+
+```javascript
+const keywords = input => {
+  const fn = compose( filterNonEmptyStrings, mapTrim, split, validate );
+  return fn(input);
+}
+// same as
+const fn = compose( filterNonEmptyStrings, mapTrim, split, validate );
+const keywords = input => fn(input);
+// =>
+const keywords = compose( filterNonEmptyStrings, mapTrim, split, validate );
+```
+
+--
+
+## compose vs pipe
+
+<!-- spec is: validate, split, map trim, reject empty -->
+
+```javascript
+const keywords = compose( filterNonEmptyStrings, mapTrim, split, validate );
+
+// exactly as spec:    validate, split, map trim, reject empty
+const keywords = pipe( validate, split, mapTrim, filterNonEmptyStrings );
+```
+--
+
+## full example
+
+```javascript
+// general
+const pipe = /* */
+
+// helpers
+const trim = str => str.trim();
+const isNotEmpty = str => str !== '';
+
+const validate = input => {
+  if (typeof input !== 'string') {
+    throw new Error('input should be String, got: ' + input);
+  }
+  return input;
+};
+const split = str => str.split(',');
+const mapTrim = arr => arr.map(trim);
+const filterNonEmptyStrings = arr => arr.filter(isNotEmpty);
+
+cosnt keywords = pipe(
+  validate,
+  split,
+  mapTrim,
+  filterNonEmptyStrings
+);
+```
+
+--
+
+<!--
 
 ```javascript
 const splitByComma = {
@@ -549,3 +658,4 @@ const splitByComma = {
   // no variables, no mutation!
 }
 ```
+-->
