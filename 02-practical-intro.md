@@ -26,7 +26,6 @@ Easy to understand, read, test and debug
 
 * curry
 * pipe (compose)
-* single value, just write this function
 * debug: tap function
 * collections
   * map
@@ -53,7 +52,8 @@ curriedSum(1)(2, 3); // 6
 
 ## Curry, (from the inside)
 
-For those, who are curious:
+For those, who are curious  
+And for the reference
 
 ```javascript
 const curry = fn => // takes function
@@ -98,7 +98,7 @@ const specific = general(someFn); // data => general(someFn, data);
 
 specific(data); // general(someFn, data);
 
-cosnt anotherFn = data => { /* do smth else here */ }
+const anotherFn = data => { /* do smth else here */ }
 const anotherSpecific = general(anotherFn); // data => general(anotherFn, data);
 
 anotherSpecific(data); // general(anotherFn, data)
@@ -128,6 +128,9 @@ shout3('sup /js/'); // SUP /JS/!
 
 ## Pipe, (in depth)
 
+For those, who are curious  
+And for the reference
+
 ```javascript
 // takes functions
 // separate left most function from rest functions
@@ -151,18 +154,22 @@ const compose = (...fns) => pipe(...fns.reverse());
 
 When you need to convert one value to another and its complicated.
 
-You need express this convertion in combination of steps, in which input should be processed after each other.
+You need express this convertion in combination of steps, in which input value should be processed.
 
 ```javascript
 // simple
 const split = str => str.split('  ');
-const addHashtag = arr => arr.map(str => '#' + str);
+const addHashtag = str => '#' + str;
 const join = arr => arr.join(' ');
 
 // complex
 // function takes 'sup js' returns '#sup #js'
-// steps are: split, add hashtag and join back
-const hashtagify = pipe(split, addHashtag, join);
+// steps are: split, add hashtag to all items and join back
+const hashtagify = pipe(
+  split,
+  arr => arr.map(addHashtag),
+  join
+);
 
 hashtagify('sup js'); // '#sup #js'
 ```
@@ -171,7 +178,10 @@ hashtagify('sup js'); // '#sup #js'
 
 ## Debug, tap function
 
-When you to see whats going on on specific step of your pipe.
+When you want to see whats going on  
+on specific step of your pipe
+
+> Runs the given function with the supplied value, then returns the value
 
 ```javascript
 const tap = curry( (fn, value) => {
@@ -182,11 +192,22 @@ const tap = curry( (fn, value) => {
 const _log = val => console.log(val);
 const log = tap(_log); // val => tap(_log, val);
 
+log('test'); // same as `tap(_log, 'test')`
+// console.log('test');
+// return 'test';
+```
+---
+
+## Debug, tap function
+
+How to use that
+
+```javascript
 const hashtagify = pipe(
   log, // 'sup js'
   split,
   log, // ['sup', 'js']
-  addHashtag,
+  arr => arr.map(addHashtag),
   log, // ['#sup', '#js']
   join,
   log // '#sup #js'
@@ -194,12 +215,131 @@ const hashtagify = pipe(
 
 hashtagify('sup js'); // '#sup #js'
 ```
+--
+
+## Collections
+
+* No for loops
+* No temporary variables
+
+--
+
+## Map Collections
+
+When you need to convert one collection to another,  
+while changing all items in the same manner
+
+*tldr: collection to changed collection*
+
+```javascript
+const map = curry( (fn, arr) => arr.map(fn) );
+
+const double = i => i * 2;
+const doubleArr = map(double); // arr => map(double, arr);
+
+doubleArr([1, 2, 3]); // [2, 4, 6]
+//> map(double, [1, 2, 3]);
+
+const addHashtag = str => '#' + str;
+const addHashtagToArr = map(addHashtag); // arr => map(addHashtag, arr);
+
+addHashtagToArr(['abc', 'xyz']);  // ['#abc', '#xyz']
+//> map(addHashtag, ['abc', 'xyz']);
+
+
+
+
+```
+
+--
+
+## Reduce Collections
+
+When you need to reduce collection to single value.
+
+*tldr: collection to changed collection*
+
+```javascript
+const reduce = curry( (fn, initial, arr) => arr.reduce(fn, initial) );
+
+const sum = (a, b) => a + b;
+
+const sumArr = reduce(sum, 0); //> arr => reduce(sum, 0, arr);
+
+sumArr([1, 2, 3]); // 6
+```
+--
+
+## Filter Collections
+### and reject items from it
+
+Filter — keep in collection only items, which satisfy you.
+
+Reject is opposite — you want to drop some.
+
+```javascript
+const filter = curry( (fn, arr) => arr.filter(fn) );
+const reject = curry( (fn, arr) => arr.filter(item => !fn(item)) );
+
+const isEven = n => (n % 2 === 0);
+
+const filterEven = filter(isEven); // arr => filter(isEven, arr);
+
+const rejectEven = reject(isEven); // arr => reject(isEven, arr);
+
+filterEven([1, 2, 3, 4]); // [2, 4]
+rejectEven([1, 2, 3, 4]); // [1, 3]
+```
+
+--
+
+## FP Toolbox, recap
+
+```javascript
+const map = curry( ( fn, arr ) => arr.map(fn));
+
+const split = str => str.split(' ');
+const addHashtag = str => '#' + str;
+const join = str => str.join(' ');
+
+const hashtagify = pipe(
+  split,
+  //> arr => arr.map(addHashtag)
+  //> arr => map(addHashtag, arr)
+  //> arr => map(addHashtag)(arr) === map(addHashtag)
+  map(addHashtag),
+  log, // ['#you', '#are', '#prepared!']
+  join
+);
+
+hashtagify('you are prepared!') // '#you #are #prepared!'
+```
+
+--
+
+## FP Toolbox, summary
+
+* `curry` — to create specific functions
+* `pipe` — to create complicated convertion
+* debug: `tap` function — to be on track
+* collections
+  * `map` — change collection as a whole
+  * `reduce` — reduce collection to single value
+  * `filter` — keep items you need
+  * `reject` — drop items you dont want
+* No `for` loops
+* No temporary variables
 
 --
 
 ## Functional Programming, further reading
 
-* list of links
+* [Mostly adequate guide to FP (in javascript)](https://github.com/MostlyAdequate/mostly-adequate-guide), book
+* [Ramda](http://ramdajs.com/), as kind of FP's lodash
+* [What Function Should I Use?](https://github.com/ramda/ramda/wiki/What-Function-Should-I-Use%3F)
+* [Ramda Cookbook / Recipes](https://github.com/ramda/ramda/wiki/Cookbook)
+* [Ramda's REPL](http://ramdajs.com/repl/)
+* [Ramda Gitter Chat room](http://gitter.im/ramda/ramda)
 
 --
 
