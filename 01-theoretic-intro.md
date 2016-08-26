@@ -1,12 +1,6 @@
 title: real world fp, 01 theoretic intro
-author:
-  name: Vladimir Starkov
-  github: iamstarkov
-  twitter: iamstarkov
-  email: iamstarkov@gmail.com
-  url: https://iamstarkov.com
-output: 01-theoretic-intro.html
 theme: sudodoki/reveal-cleaver-theme
+style: https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/zenburn.min.css
 controls: true
 
 --
@@ -16,6 +10,9 @@ controls: true
 
 <del>Monads, Comonad, Monoids, Setoids, Endofunctors.</del>  
 Easy to understand, read, test and debug
+
+<br/><br/><br/>
+<small>by [Vladimir Starkov](https://iamstarkov.com)</small>
 
 --
 
@@ -32,8 +29,8 @@ Easy to understand, read, test and debug
 
 ```javascript
 function imperativeDoubleArray(arr) {
-  var result = [];
-  for (var i = 0, i++, i<arr.length) {
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
     result.push(arr[i] * 2);
   }
   return result;
@@ -73,8 +70,8 @@ const double = x => x * 2;
 xs.splice(0, 3);
 
 // also impure
-var minimum = 21;
-var checkAge = function(age) {
+const minimum = 21;
+const checkAge = function(age) {
   return age >= minimum;
 };
 ```
@@ -270,12 +267,12 @@ On the other side, with composition:
 
 ```javascript
 // naive simple currying
-var add = function(x) {
+const add = function(x) {
   return function(y) {
     return x + y;
   };
 };
-var alsoAdd = x => y => x + y;
+const alsoAdd = x => y => x + y;
 
 add(1)(2) === alsoAdd(1)(2) === 3; // true
 // though add(1, 2) isnt working, lets fix that
@@ -309,8 +306,8 @@ const curry = fn => // takes function
   (...args) =>
     // if not all arguments provided
     args.length < fn.length
-      // return curried function which accumulates arguments
-      ? (...newArgs) => curry(fn)(...args.concat(newArgs))
+      // return curried function which accumulates rest arguments
+      ? (...rest) => curry(fn)(...args, ...rest)
       // if all arguments are provided,
       // just invoke function with them
       : fn(...args)
@@ -448,12 +445,12 @@ censored('Chocolate Rain');
 It just works™
 
 ```javascript
-var compose = function(f, g) {
+const compose = function(f, g) {
   return function(x) {
     return f(g(x));
   };
 };
-var alsoCompose = (f, g) => x => f(g(x));
+const alsoCompose = (f, g) => x => f(g(x));
 ```
 --
 
@@ -605,6 +602,25 @@ const keywords = str => Promise.resolve(str)
   .then(trim)
   .then(filter);
 ```
+--
+
+## Functional composition (pipe as gulp.pipe)
+
+```javascript
+/* const keywords = pipe(
+  validate,
+  split,
+  trim,
+  filter
+); */
+
+gulp.src('./source-file.js')
+  .pipe(gulpValidate())
+  .pipe(gulpSplit())
+  .pipe(gulpTrim())
+  .pipe(gulpFilter())
+  .pipe(gulp.dest('build'));
+```
 
 --
 
@@ -655,12 +671,19 @@ Functions takes functions and returns functions
 
 ## Functional Programming, (recursion)
 
-* You can find more about "real world fp" workshop in the github repo
-https://github.com/iamstarkov/fp-js-workshop
+["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
 
-* This presentation is available on url
-https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/.
+To be continued with "#2 Practical intro"
 
-* To be continued with "#2 Practical intro"
+*Stay tuned*
 
-* *Stay tuned*
+--
+
+# real world fp
+## #1 theoretic intro
+
+<br>
+*In functions we trust*
+
+Sincerely yours [Vladimir Starkov](https://iamstarkov.com)  
+_@iamstarkov on [github](https://github.com/iamstarkov) and [twitter](https://twitter.com/iamstarkov)_
