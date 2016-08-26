@@ -149,7 +149,7 @@ const compose = (...fns) => pipe(...fns.reverse());
 
 ## Pipe, (Use cases)
 
-When you need to convert one value to another and its complexed.
+When you need to convert one value to another and its complicated.
 
 You need express this convertion in combination of steps, in which input should be processed after each other.
 
@@ -205,7 +205,7 @@ hashtagify('sup js'); // '#sup #js'
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/02-practical-intro-intro/)
+["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 
 To be continued with live coding real world node modules
 
