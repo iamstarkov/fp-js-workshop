@@ -248,10 +248,6 @@ const addHashtagToArr = map(addHashtag); // arr => map(addHashtag, arr);
 
 addHashtagToArr(['abc', 'xyz']);  // ['#abc', '#xyz']
 //> map(addHashtag, ['abc', 'xyz']);
-
-
-
-
 ```
 
 --
@@ -343,6 +339,12 @@ hashtagify('you are prepared!') // '#you #are #prepared!'
 * [Ramda Cookbook / Recipes](https://github.com/ramda/ramda/wiki/Cookbook)
 * [Ramda's REPL](http://ramdajs.com/repl/)
 * [Ramda Gitter Chat room](http://gitter.im/ramda/ramda)
+
+--
+
+## Live coding
+
+![](https://m.popkey.co/6e322c/Al5Lp.gif)
 
 --
 
