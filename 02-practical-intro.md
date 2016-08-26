@@ -16,12 +16,22 @@ Easy to understand, read, test and debug
 
 --
 
-## brief recap
+## Toolbox
+
+![](https://i.kinja-img.com/gawker-media/image/upload/s--IKcH8eFk--/c_fit,fl_progressive,q_80,w_636/18pabzmbdy79gjpg.jpg)
+
+--
+
+## Toolbox
 
 * curry
-* compose
-* pipe
-
+* pipe (compose)
+* single value, just write this function
+* debug: tap function
+* collections
+  * map
+  * reduce
+  * filter / reject
 --
 
 ## curry, (as a blackbox)
@@ -51,8 +61,8 @@ const curry = fn => // takes function
   (...args) =>
     // if not all arguments provided
     args.length < fn.length
-      // return curried function which accumulates arguments
-      ? (...newArgs) => curry(fn)(...args.concat(newArgs))
+      // return curried function which accumulates other required arguments
+      ? (...rest) => curry(fn)(...args, ...rest)
       // if all arguments are provided,
       // just invoke function with them
       : fn(...args)
@@ -60,53 +70,45 @@ const curry = fn => // takes function
 
 --
 
-## Compose, (as a blackbox)
+## Curry, (Use cases)
 
-It just works™
+When you need specific function, so you can create one from general function.
 
 ```javascript
-const shout1 = str => exclaim(toUpperCase(str));
-// or
-const shout2 = str => compose(exclaim, toUpperCase)(str);
-// or
-const shout3 = compose(exclaim, toUpperCase); // right to left order
-
-shout1('sup /js/'); // SUP /JS/!
-shout2('sup /js/'); // SUP /JS/!
-shout3('sup /js/'); // SUP /JS/!
+const specificBefore = data => {
+  // …
+  const internalFn1 = data => { /* do smth here */ };
+  // …
+  return internalFn1(data);
+};
 ```
 
 --
 
-## Compose, (in depth)
-
-For those, who are curious:
+## Curry, (Use cases)
 
 ```javascript
-const compose = (...fns) => { // Takes functions
-  // separate right most function from rest functions
-  const [tailFn, ...restFns] = fns.reverse();
-  // Returns composed function
-  return (...args) => { // which takes `arguments`
-    // Invokes each passed function after each other
-    return restFns.reduce(
-      // each function takes result of previous one
-      (value, fn) => fn(value),
-      // but right most function can take any arguments
-      tailFn(...args)
-    );
-  };
-};
+const general = curry( (fn, data) => {
+  // …
+  return fn(data);
+} );
 
-// pipe is reversed compose, more human friendly
-const pipe = (...fns) => compose(...fns.reverse());
+const someFn = data => { /* do smth here */ }
+const specific = general(someFn); // data => general(someFn, data);
+
+specific(data); // general(someFn, data);
+
+cosnt anotherFn = data => { /* do smth else here */ }
+const anotherSpecific = general(anotherFn); // data => general(anotherFn, data);
+
+anotherSpecific(data); // general(anotherFn, data)
 ```
 
 --
 
 ## Pipe, (as a blackbox)
 
-Reversed compose or human readable compose.
+Human readable functional composition.
 
 It just works™
 
@@ -126,13 +128,6 @@ shout3('sup /js/'); // SUP /JS/!
 
 ## Pipe, (in depth)
 
-Reversed compose, in short
-
-```javascript
-const pipe = (...fns) => compose(...fns.reverse());
-```
-or
-
 ```javascript
 // takes functions
 // separate left most function from rest functions
@@ -148,6 +143,56 @@ const pipe = (headFN, ...restFns) =>
     );
 
 const compose = (...fns) => pipe(...fns.reverse());
+```
+
+--
+
+## Pipe, (Use cases)
+
+When you need to convert one value to another and its complexed.
+
+You need express this convertion in combination of steps, in which input should be processed after each other.
+
+```javascript
+// simple
+const split = str => str.split('  ');
+const addHashtag = arr => arr.map(str => '#' + str);
+const join = arr => arr.join(' ');
+
+// complex
+// function takes 'sup js' returns '#sup #js'
+// steps are: split, add hashtag and join back
+const hashtagify = pipe(split, addHashtag, join);
+
+hashtagify('sup js'); // '#sup #js'
+```
+
+--
+
+## Debug, tap function
+
+When you to see whats going on on specific step of your pipe.
+
+```javascript
+const tap = curry( (fn, value) => {
+  fn(value);
+  return value;
+} );
+
+const _log = val => console.log(val);
+const log = tap(_log); // val => tap(_log, val);
+
+const hashtagify = pipe(
+  log, // 'sup js'
+  split,
+  log, // ['sup', 'js']
+  addHashtag,
+  log, // ['#sup', '#js']
+  join,
+  log // '#sup #js'
+);
+
+hashtagify('sup js'); // '#sup #js'
 ```
 
 --

@@ -306,7 +306,7 @@ const curry = fn => // takes function
   (...args) =>
     // if not all arguments provided
     args.length < fn.length
-      // return curried function which accumulates rest arguments
+      // return curried function which accumulates other required arguments
       ? (...rest) => curry(fn)(...args, ...rest)
       // if all arguments are provided,
       // just invoke function with them
