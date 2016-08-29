@@ -22,7 +22,7 @@ which can be used to build bundlers like browserify or rollup.
 ## Talks
 
 1. [Theoretic intro](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
-2. Practical intro (upcoming)
+2. [Practical intro](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 3. Start implementation of real world modules. Several of them, smth about 6 sessions.
 
 ## License
