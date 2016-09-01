@@ -16,16 +16,95 @@ Easy to understand, read, test and debug
 
 --
 
+## why
+
+because js is one threaded
+* synchronous operation blocks
+  * ui in browser
+  * other processes in node
+
+--
+
+## what
+
+* network
+* filesystem
+
+*tip:* use `fs.readFileSync` or other `fs.*Sync` method to write slow nodejs apps.
+
+--
+
 ## History
 
 * XMLHttpRequest
 * jquery ajax, deferred
-* callbacks
+* nodejs callbacks
 * promises
+* fetch
 
 --
 
 ## XMLHttpRequest
+
+```javascript
+function reqListener () {
+  console.log(this.responseText);
+}
+
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", reqListener);
+oReq.open("GET", "http://www.example.org/example.txt");
+oReq.send();
+```
+
+--
+
+## XMLHttpRequest, bad
+
+```javascript
+const r = new XMLHttpRequest();
+// false for async, so its sync now
+r.open('GET', 'https://www.angio.net/pi/digits/pi1000000.txt', false);
+r.send();
+```
+--
+
+## jquery ajax, deferred
+
+```javascript
+$.ajax({
+  dataType: "json",
+  url: url,
+  data: data,
+  success: success
+});
+```
+
+--
+
+## nodejs callbacks
+
+```javascript
+fs.readFile('/etc/passwd', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
+--
+
+## promises
+
+```
+api.get('/api/2/login')
+  .then(data => console.log(data));
+```
+
+--
+
+## fetch
+
+standard 101
 
 --
 
