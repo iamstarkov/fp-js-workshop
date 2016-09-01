@@ -18,7 +18,8 @@ Easy to understand, read, test and debug
 
 ## why
 
-because js is one threaded
+because js is single threaded
+
 * synchronous operation blocks
   * ui in browser
   * other processes in node
