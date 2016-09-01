@@ -21,5 +21,9 @@ echo "# build 02-practical-intro"
 mkdir dist/02-practical-intro
 cleaver 02-practical-intro.md --output dist/02-practical-intro/index.html
 
+echo "# build 03-async"
+mkdir dist/03-async
+cleaver 03-async.md --output dist/03-async/index.html
+
 echo "# deploy dist to gh-pages"
 buildbranch gh-pages dist
