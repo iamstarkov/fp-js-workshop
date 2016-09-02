@@ -410,7 +410,7 @@ Chapter 3: Promises](https://github.com/getify/You-Dont-Know-JS/blob/master/asyn
 ## Functional Programming, (recursion)
 
 ["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop)  
-["#3 async" (this slides)](https://iamstarkov.com/fp-js-workshop/03-async/)
+["#3 async" slides](https://iamstarkov.com/fp-js-workshop/03-async/)
 
 To be continued with ["#4 contracts"](https://iamstarkov.com/fp-js-workshop/04-contracts/)
 
