@@ -30,3 +30,4 @@ which can be used to build bundlers like browserify or rollup.
 ## License
 
 MIT © [Vladimir Starkov](https://iamstarkov.com)
+
