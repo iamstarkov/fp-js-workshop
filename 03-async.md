@@ -69,15 +69,14 @@ oReq.send();
 ## jquery ajax, deferred, better
 
 ```javascript
-$.ajax({
-  dataType: "json",
-  url: url,
-  data: data,
-  success: hey => { console.log('im done!'); }
-});
+$.getJSON('example.json')
+  .done(() => console.log('success'))
+  .fail(() => console.log('error'))
+  .always(() => console.log('complete'));
 ```
 
-*[Deprecated](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred)*
+* *[almost deprecated in jquery 3.0 release](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred)*,
+* and now Promises/A+ compatible
 
 --
 
@@ -91,7 +90,7 @@ fs.readFile('/etc/passwd', (err, data) => {
 ```
 
 --
-## nodejs callbacks, but not really
+## nodejs callbacks, good,  but not really
 
 ![](http://icompile.eladkarako.com/wp-content/uploads/2016/01/icompile.eladkarako.com_callback_hell.gif)
 --
@@ -122,7 +121,8 @@ loadImage('one.png', function(err, image1) {
 
 ```javascript
 api.get('/api/2/login')
-  .then(data => console.log(data));
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
 ```
 
 ---
@@ -148,10 +148,10 @@ Promise.all(allImages)
 
 ### Promises > callbacks
 
-Fetch is promise based standard for network calls.
-
 > any (browser) API that involves networking e.g., `<img src>`, `<a href>`, `XMLHttpRequest`, `@font-face`, `WebSocket`) goes through Fetch  
 > — [Fetch Standard 101](https://annevankesteren.nl/2016/07/fetch-101)
+
+Fetch is promise based standard for network calls.
 
 --
 
@@ -159,38 +159,30 @@ Fetch is promise based standard for network calls.
 ## how to write code with promises
 
 ```javascript
-const loadImage = url => new Promise((resolve, reject) => {
-  const image = new Image();
+const getImagesByTopic = topic =>
+  fetch(`/api/images/?topic=${topic}`)
+    .then(res => res.json());
 
-  image.onload = () => { resolve(image); };
-
-  image.onerror = () => { reject(
-    new Error('Could not load image at ' + url)
-  )};
-
-  image.src = url;
-});
-
-export default loadImage;
+export default getImagesByTopic;
 ```
 
+* *Note 0:* always return functions
 * *Note 1:* reject only with `new Error('err desc')`
-* *Note 2:* [throw and implicit catch](https://github.com/mattdesl/promise-cookbook#throw-and-implicit-catch)
+* *Note 2:* be aware of [`throw` and implicit catch](https://github.com/mattdesl/promise-cookbook#throw-and-implicit-catch)
 
 --
 
 ## how to use promises
 
 ```javascript
-import loadImage from '../utils/loadImage';
+import getImagesByTopic from '../utils/getImagesByTopic';
 
-loadImage('harambe.jpg')
+getImageUrlsFromAPI('harambe')
   .then(image => { console.log('save harambe!') })
   .catch(err => console.error(err)); // error handling
 ```
 
-*note:* error handling on usage,  
-not implementation
+*note:* handle errors when you actually using promises, not in implementation
 
 --
 
@@ -208,7 +200,8 @@ const isAuthenticated = () =>
 // usage
 isAuthenticated()
   .then(isAuthenticated => console.log(isAuthenticated))
-  .catch(err => console.error(err)); // error handling belongs only to implementation
+  .catch(err => console.error(err));
+  // error handling belongs only to implementation
 ```
 --
 
@@ -239,21 +232,23 @@ TL;DR: want to inc and double = `pipe(inc, double)`
 
 --
 
-## PipeP to the rescue
-
-* Takes promised functions, returns Promised function
-* Returns *piped* function which takes `arguments`
-* Invokes (left to right) each passed promised function after each other
-* Every next promise will get calculation result of previous one
-* Note: left most promised function can take any arguments
-
---
-
 ## PipeP to the rescue, in short
 
 `promise1(x).then(promise2)`  
 equals  
-`pipeP(promise1, promise2)(x)`
+`pipeP(promise1, promise2, fn1)(x)`
+
+--
+
+## PipeP to the rescue
+
+* *Note: promised based function — function, which returns Promise, which resolves to some value*
+* Takes several promise based functions or functions
+* Returns one promise based function which takes `arguments`
+* Invokes (left to right) each passed function one after another
+* Every next function will get calculation result of previous one
+* Note 1: left most function can take any arguments
+* Note 2: only left most function required to be promise based function
 
 --
 
@@ -290,19 +285,22 @@ For those, who are curious
 And for the reference
 
 ```javascript
+// synchronous composition
 // function composition (left to right)
 const pipe = (headFN, ...restFns) => (...args) => restFns.reduce(
   (value, fn) => fn(value),
   headFN(...args),
 );
 
+// asynchronous composition
 // promises composition (left to right)
 const pipeP = (headPromiseFn, ...restPromiseFns) => (...args) => restPromiseFns.reduce(
   (promiseValue, promiseFn) => promiseValue.then(promiseFn),
   headPromiseFn(...args)
 );
 ```
-Note: as far as Promise chain can handle regular functions, pipeP can handle them as well.
+
+Note: as far as Promise chain can handle regular functions, pipeP can handle them as well
 
 --
 
@@ -355,16 +353,18 @@ fsHello('input.txt')
 
 ```javascript
 /* const asyncOperation = val =>
-  PromiseFn(val)
-    .then(fn1)
+  promiseFn1(val)
     .then(fn2)
-    .then(fn3); */
+    .then(fn3)
+    .then(promiseFn4)
+    .then(fn5); */
 
 const asyncOperation = R.pipeP(
-  PromiseFn,
-  fn1,
+  promiseFn1,
   fn2,
-  fn3
+  fn3,
+  promiseFn4,
+  fn5
 );
 
 asyncOperation('some')
@@ -377,14 +377,15 @@ asyncOperation('some')
 ## Async FP, summary 2
 
 ```javascript
-// functional composition
+// synchronous composition
 const funPipe = pipe(
   fun1, fun2, fun3
 );
 
-// promises composition
+// asynchronous composition
 const promisePipe = pipeP(
-  promise1, promise2, promise3, /* funN, promiseN */
+  promiseFn1, promiseFn2, promiseFn3,
+  // you can use regular functions here also
 );
 
 // usage
