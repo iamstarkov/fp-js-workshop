@@ -241,11 +241,11 @@ TL;DR: want to inc and double = `pipe(inc, double)`
 
 ## PipeP to the rescue
 
-* Takes promises, returns Promise
+* Takes promised functions, returns Promised function
 * Returns *piped* function which takes `arguments`
-* Invokes (left to right) each passed promise after each other
+* Invokes (left to right) each passed promised function after each other
 * Every next promise will get calculation result of previous one
-* Note: right left most promise can take any arguments
+* Note: left most promised function can take any arguments
 
 --
 
