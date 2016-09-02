@@ -25,5 +25,9 @@ echo "# build 03-async"
 mkdir dist/03-async
 cleaver 03-async.md --output dist/03-async/index.html
 
+echo "# build 04-contracts"
+mkdir dist/04-contracts
+cleaver 04-contracts.md --output dist/04-contracts/index.html
+
 echo "# deploy dist to gh-pages"
 buildbranch gh-pages dist
