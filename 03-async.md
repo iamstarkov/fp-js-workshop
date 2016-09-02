@@ -272,7 +272,7 @@ const api = pipeP(fetch, res => res.json()); // url => pipeP(…)(url);
     .then(data => data.session_type)
     .then(type => type === 'authenticated'); */
 const isAuthenticated = pipeP(
-  api('/api/status').
+  api('/api/status'),
   data => data.session_type,
   type => type === 'authenticated'
 );
@@ -298,7 +298,7 @@ const pipe = (headFN, ...restFns) => (...args) => restFns.reduce(
 
 // promises composition (left to right)
 const pipeP = (headPromiseFn, ...restPromiseFns) => (...args) => restPromiseFns.reduce(
-  (promiseValue, promiseFn) => promiseValue.then(promiseFn)
+  (promiseValue, promiseFn) => promiseValue.then(promiseFn),
   headPromiseFn(...args)
 );
 ```
