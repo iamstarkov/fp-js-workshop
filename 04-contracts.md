@@ -71,15 +71,19 @@ See Hindlye-Milner signatures. In other words, arguments should satisfy contract
 ```javascript
 // double :: Number -> Number
 const double = x => x * 2;
-double(2);     // fine
-double();      // mususage
-double('sup'); // will be broken
 
 // split :: String -> [String]
 const split = str => str.split(' ');
-split('sup js'); // fine
-split();      // mususage
-split(2);     // will be broken
+
+// fine
+double(2);
+split('sup js');
+
+// every mus-usage will be broken
+double();
+double('sup');
+split();
+split(2);
 ```
 --
 
