@@ -94,6 +94,31 @@ split(2);
 
 --
 
+## Satisfied contract
+
+Every passed argument same type, as specified in contract.
+
+--
+
+## contract function
+
+```javascript
+const contract = (argName, Constructor, actualArg) => {
+  if (actualArg instanceOf Constructor) {
+    return actualArg;
+  } else {
+    throw new TypeError(
+      `\`${argName}\` should be an \`${typeof Constructor)}\`,
+      but got \`typeof actualArg\`: ${actualArg}`;
+    )
+  }
+
+}
+```
+
+
+--
+
 ## Further reading
 
 * [The Error Model](http://joeduffyblog.com/2016/02/07/the-error-model/)
