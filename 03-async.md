@@ -39,6 +39,11 @@ synchronous operation blocks:
 
 ## History
 
+![](http://www.warmingtonheritage.com/wp-content/uploads/2011/06/PICT0006.jpg)
+--
+
+## History
+
 * XMLHttpRequest
 * jquery ajax, deferred
 * nodejs callbacks
@@ -91,7 +96,7 @@ fs.readFile('/etc/passwd', (err, data) => {
 ![](http://icompile.eladkarako.com/wp-content/uploads/2016/01/icompile.eladkarako.com_callback_hell.gif)
 --
 
-## nodejs callbacks, but not really
+## nodejs callbacks, not good at all
 
 ```javascript
 loadImage('one.png', function(err, image1) {
@@ -143,11 +148,9 @@ Promise.all(allImages)
 
 ### Promises > callbacks
 
---
+Fetch is promise based standard for network calls.
 
-## fetch 101
-
-> any API that involves networking e.g., `<img src>`, `<a href>` (through navigation), `XMLHttpRequest`, `@font-face`, `WebSocket`) goes through Fetch  
+> any (browser) API that involves networking e.g., `<img src>`, `<a href>`, `XMLHttpRequest`, `@font-face`, `WebSocket`) goes through Fetch  
 > — [Fetch Standard 101](https://annevankesteren.nl/2016/07/fetch-101)
 
 --
@@ -374,13 +377,14 @@ asyncOperation('some')
 ## Async FP, summary 2
 
 ```javascript
-// composition
+// functional composition
 const funPipe = pipe(
   fun1, fun2, fun3
 );
 
+// promises composition
 const promisePipe = pipeP(
-  promise1, promise2, promise2
+  promise1, promise2, promise3, /* funN, promiseN */
 );
 
 // usage
@@ -405,7 +409,8 @@ Chapter 3: Promises](https://github.com/getify/You-Dont-Know-JS/blob/master/asyn
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/03-async/)
+["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop)  
+["#3 async" (this slides)](https://iamstarkov.com/fp-js-workshop/03-async/)
 
 To be continued with ["#4 contracts"](https://iamstarkov.com/fp-js-workshop/04-contracts/)
 
