@@ -96,24 +96,34 @@ split(2);
 
 ## Satisfied contract
 
-Every passed argument same type, as specified in contract.
+Every passed argument belongs to type, specified in contract.
 
 --
 
 ## contract function
 
 ```javascript
-const contract = (argName, Constructor, actualArg) => {
-  if (actualArg instanceOf Constructor) {
+// javascript types magic, dont bother
+// Constructor, as Ctor, because Constructor is a keyword
+const is = (Ctor, val) => val != null && val.constructor === Ctor || val instanceof Ctor;
+const type = val => (val !== null && val !== undefined)
+  ? Object.prototype.toString.call(val).slice(8, -1)
+  : (val === null) ? 'Null': 'Undefined';
+const ctorType = Ctor => (val !== null && val !== undefined)
+  ? type(Ctor())
+  : (val === null) ? 'Null': 'Undefined';
+
+const contract = (argName, Ctor, actualArg) => {
+  if (is(Ctor, actualArg)) {
     return actualArg;
   } else {
     throw new TypeError(
-      `\`${argName}\` should be an \`${typeof Constructor)}\`,
-      but got \`typeof actualArg\`: ${actualArg}`;
+       `\`${argName}\` should be an \`${ctorType(Ctor}\`, but got \`${type(actualArg)}\`: ${actualArg}`;
     )
   }
-
 }
+
+contrac
 ```
 
 
