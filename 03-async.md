@@ -279,7 +279,7 @@ const isAuthenticated = pipeP(
 
 isAuthenticated()
   .then(isAuthenticated => console.log(isAuthenticated))
-  .catch(err => console.error(err)); // error handling belongs only to implementation
+  .catch(err => console.error(err)); // error handling belongs to usage
 ```
 
 --
