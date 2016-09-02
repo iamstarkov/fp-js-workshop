@@ -16,9 +16,84 @@ Easy to understand, read, test and debug
 
 --
 
+## what
+
+```javascript
+// double takes Number returns Number
+const double = x => x * 2;
+
+// split takes String returns Array of String's
+const split = str => str.split(' ');
+```
+--
+
+## Hindlye-Milner signature
+
+Brief function's documentation about arguments' types and returned value's type
+
+```
+// functionName :: argType1 -> argType2 -> argType3 -> resultType
+```
+
+--
+
+## Hindlye-Milner signature
+
+```javascript
+// double takes Number returns Number
+// double :: Number -> Number
+const double = x => x * 2;
+
+// split takes String returns Array of String's
+// split :: String -> [String] same as
+const split = str => str.split(' ');
+```
+
+--
+
+## Problem
+
+```js
+double(); // nope
+double('2'); // nope
+
+split(); // no split on undefined
+split(123); // no split on number
+```
+
+--
+
+## Signature as Contract
+
+Our functions will work *only* when our functions are used with proper types.
+See Hindlye-Milner signatures. In other words, arguments should satisfy contract of that function.
+
+```javascript
+// double :: Number -> Number
+const double = x => x * 2;
+double(2);     // fine
+double();      // mususage
+double('sup'); // will be broken
+
+// split :: String -> [String]
+const split = str => str.split(' ');
+split('sup js'); // fine
+split();      // mususage
+split(2);     // will be broken
+```
+--
+
+## Misusages
+
+* empty input (`undefined`)
+* invalid input (`wrong type`)
+
+--
+
 ## Further reading
 
-* [Error model](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+* [The Error Model](http://joeduffyblog.com/2016/02/07/the-error-model/)
+* [Is your JavaScript function actually pure?](http://staltz.com/is-your-javascript-function-actually-pure.html)
 --
 
 ## Functional Programming, (recursion)
