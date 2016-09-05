@@ -185,7 +185,7 @@ const is = (Ctor, val) => val != null && val.constructor === Ctor || val instanc
  *   type(2); // 'Number'
  *   type('qwe'); // 'String'
  * @signature:
- *   is :: value -> String
+ *   type :: value -> String
  */
 const type = val => (val !== null && val !== undefined)
   ? Object.prototype.toString.call(val).slice(8, -1)
