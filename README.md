@@ -24,7 +24,7 @@ which can be used to build bundlers like browserify or rollup.
 1. [Theoretic intro](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
 2. [Practical intro](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 3. [Async operations](https://iamstarkov.com/fp-js-workshop/03-async/)
-4. [Contracts](https://iamstarkov.com/fp-js-workshop/03-contracts/)
+4. [Contracts](https://iamstarkov.com/fp-js-workshop/04-contracts/)
 5. Start implementation of real world modules. Several of them, smth about 6 sessions.
 
 ## License
