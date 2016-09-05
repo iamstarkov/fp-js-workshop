@@ -25,9 +25,30 @@ const double = x => x * 2;
 // split takes String returns Array of String's
 const split = str => str.split(' ');
 ```
+
 --
 
-## Hindlye-Milner signature
+## Problem
+
+```javascript
+double();     // NaN
+double('2q'); // NaN
+
+split();      // TypeError: str is undefined
+split(123);   // TypeError: str.split is not a function
+```
+
+--
+
+## Problem, exactly
+
+`double()` and `split()` will work properly only when input belongs to specified Type.
+
+Let's establish this convention.
+
+--
+
+## Hindley-Milner signature
 
 Brief function's documentation about arguments' types and returned value's type
 
@@ -37,7 +58,7 @@ Brief function's documentation about arguments' types and returned value's type
 
 --
 
-## Hindlye-Milner signature
+## Hindley-Milner signature
 
 ```javascript
 // double takes Number returns Number
@@ -45,87 +66,230 @@ Brief function's documentation about arguments' types and returned value's type
 const double = x => x * 2;
 
 // split takes String returns Array of String's
-// split :: String -> [String] same as
+// split :: String -> [String]
 const split = str => str.split(' ');
-```
-
---
-
-## Problem
-
-```js
-double(); // nope
-double('2'); // nope
-
-split(); // no split on undefined
-split(123); // no split on number
 ```
 
 --
 
 ## Signature as Contract
 
-Our functions will work *only* when our functions are used with proper types.
-See Hindlye-Milner signatures. In other words, arguments should satisfy contract of that function.
+> Contract — as far as arguments satisfy signature, function will work as expected.
 
-```javascript
-// double :: Number -> Number
-const double = x => x * 2;
+Every mususage leads to broken function
 
-// split :: String -> [String]
-const split = str => str.split(' ');
-
-// fine
-double(2);
-split('sup js');
-
-// every mus-usage will be broken
-double();
-double('sup');
-split();
-split(2);
-```
 --
 
 ## Misusages
 
-* empty input (`undefined`)
-* invalid input (`wrong type`)
+* empty input: `undefined` or `fn()`
+* invalid input: `wrong type` or `fn(invalidType)`
 
 --
 
-## Satisfied contract
+## Problem definition, revisited
 
-Every passed argument belongs to type, specified in contract.
+1. Function can be used only in specific condition
+2. Function will be broken otherwise
+3. Function consumer will get unhelpful messages
+
+Function consumer — your co-worker in the office or another developer in the open-source.
 
 --
 
-## contract function
+## Problem definition, solution
+
+> 1. Function can be used only in specific condition
+
+Thats fine, as far as it really works!
+
+--
+
+## Problem definition, solution
+
+> 2. Function will be broken otherwise
+> 3. Function consumer will get unhelpful messages
+
+* force desired types
+* if types are invalid, print helpful and careful messages for consumer
+
+--
+
+## Solution
+
+Function — which types check arguments.
+
+* If type is correct just returns value
+* Otherwise `throw new TypeError(helpfulMessage)`
+* Where helpful message, should contain
+  * argument name
+  * desired type
+  * actual type
+  * actual argument value
+
+--
+
+## JavaScript Type System™
+
+![](http://ci.memecdn.com/216/7046216.jpg)
+
+---
+
+## contract function, preparation
+### `is` helper
 
 ```javascript
-// javascript types magic, dont bother
-// Constructor, as Ctor, because Constructor is a keyword
+/**
+ * typecheck is value belongs to Constructor
+ * @example:
+ *   is(Number, 2); // true
+ *   is(Number, 'qwe'); // false
+ * @signature:
+ *   is :: Constructor -> value -> Boolean
+ */
 const is = (Ctor, val) => val != null && val.constructor === Ctor || val instanceof Ctor;
+```
+
+--
+
+## contract function, preparation
+### `type` helper
+
+```javascript
+/**
+ * returns value's type
+ * @example:
+ *   type(2); // 'Number'
+ *   type('qwe'); // 'String'
+ * @signature:
+ *   is :: value -> String
+ */
 const type = val => (val !== null && val !== undefined)
   ? Object.prototype.toString.call(val).slice(8, -1)
   : (val === null) ? 'Null': 'Undefined';
-const ctorType = Ctor => (val !== null && val !== undefined)
+```
+
+--
+
+## contract function, preparation
+### `ctorType` helper
+
+```javascript
+/**
+ * returns Constructor's type
+ * @example:
+ *   type(Number); // 'Number'
+ *   type(String); // 'String'
+ * @signature:
+ *   ctorType :: Constructor -> String
+ */
+const ctorType = Ctor => (Ctor !== null && Ctor !== undefined)
   ? type(Ctor())
   : (val === null) ? 'Null': 'Undefined';
+```
 
+--
+
+## contract function, implementation
+
+```javascript
 const contract = (argName, Ctor, actualArg) => {
   if (is(Ctor, actualArg)) {
     return actualArg;
   } else {
     throw new TypeError(
-       `\`${argName}\` should be an \`${ctorType(Ctor}\`, but got \`${type(actualArg)}\`: ${actualArg}`;
-    )
+       `${argName} should be an ${ctorType(Ctor)}, but got ${type(actualArg)}: ${actualArg}`
+    );
   }
 }
 
-contrac
+contract('x', Number, 2); // 2
+contract('x', Number, 'nope');
+//> TypeError: x should be an Number, but got String: nope
 ```
 
+--
+
+## Contract function, usage
+
+So we need to contract function and then invoke actual implementation, so its two steps — ideal case for `pipe`.
+
+--
+
+## Contract function, usage
+
+```javascript
+// double :: Number -> Number
+const double = pipe(
+  x => contract('x', Number, x),
+  x => x * 2
+)
+
+// split :: String -> [String]
+const split = pipe(
+  str => contract('str', String , str),
+  str => inputStr.split(' ')
+)
+```
+
+--
+
+## Contract function, improvement
+### `curry` it!
+
+```javascript
+const contract = curry( (argName, Ctor, actualArg) => {
+  if (is(Ctor, actualArg)) {
+    return actualArg;
+  } else {
+    throw new TypeError(
+       `${argName} should be an ${ctorType(Ctor)}, but got ${type(actualArg)}: ${actualArg}`
+    );
+  }
+});
+```
+
+--
+
+## Contract function, improvement
+
+```javascript
+// double :: Number -> Number
+const double = pipe(
+  // x => contract('x', Number, x),
+  // x => contract('x', Number)(x),
+  contract('x', Number),
+  x => x * 2
+);
+
+// split :: String -> [String]
+const split = pipe(
+  // str => contract('str', String, str),
+  // str => contract('str', String)(str),
+  contract('str', String),
+  str => inputStr.split(' ')
+);
+```
+
+--
+
+## Result
+
+```javascript
+double(2); // 4
+double('nope'); //> TypeError: x should be an Number, but got String: nope
+
+split('sup js'); // ['sup', 'js'];
+split(2); //> TypeError: str should be an String, but got Number: 2
+```
+
+--
+
+## Summary
+
+* Function is happy and will work if contract is satisfied
+* You co-workers are happy to use your code
+* If your code is not working for them they know to easy fix it
 
 --
 
@@ -133,6 +297,8 @@ contrac
 
 * [The Error Model](http://joeduffyblog.com/2016/02/07/the-error-model/)
 * [Is your JavaScript function actually pure?](http://staltz.com/is-your-javascript-function-actually-pure.html)
+* [neat-contract lib, a bit extended function from this talk](https://github.com/iamstarkov/neat-contract)
+
 --
 
 ## Functional Programming, (recursion)
@@ -147,7 +313,7 @@ To be continued with real world implementation with you.
 --
 
 # real world fp
-## #3 contracts
+## #4 contracts
 
 <br>
 *In functions we trust*
