@@ -115,9 +115,38 @@ Thats fine, as far as it really works!
 
 --
 
+## JavaScript Type System™
+
+![](http://ci.memecdn.com/216/7046216.jpg)
+
+--
+
+## JavaScript Type System™
+### Static typing JS dialects
+
+* TypeScript
+* Flow
+
+--
+
+## TypeScript and Flow
+
+* Both are great
+* Its vendor lock, though
+* Introduces compilation build-step
+* [TypeScript doesn't expose run-time checks and will not do it](https://github.com/Microsoft/TypeScript/issues/1573)
+    It means no help for your code consumers =(
+
+<br/>
+
+Why do we need to introduce new language superset  
+if we can do it with one function?
+
+--
+
 ## Solution
 
-Function — which types check arguments.
+Function — which type-check arguments.
 
 * If type is correct just returns value
 * Otherwise `throw new TypeError(helpfulMessage)`
@@ -128,12 +157,6 @@ Function — which types check arguments.
   * actual argument value
 
 --
-
-## JavaScript Type System™
-
-![](http://ci.memecdn.com/216/7046216.jpg)
-
----
 
 ## contract function, preparation
 ### `is` helper
@@ -246,7 +269,7 @@ const contract = curry( (argName, Ctor, actualArg) => {
        `${argName} should be an ${ctorType(Ctor)}, but got ${type(actualArg)}: ${actualArg}`
     );
   }
-});
+} );
 ```
 
 --
@@ -289,7 +312,7 @@ split(2); //> TypeError: str should be an String, but got Number: 2
 
 * Function is happy and will work if contract is satisfied
 * You co-workers are happy to use your code
-* If your code is not working for them they know to easy fix it
+* If your code is not working for them they can fix it easily
 
 --
 
