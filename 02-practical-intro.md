@@ -350,9 +350,10 @@ hashtagify('you are prepared!') // '#you #are #prepared!'
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
+["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop),  
+["#2 practical intro" slides](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 
-To be continued with live coding real world node modules
+To be continued with ["#3 async"](https://iamstarkov.com/fp-js-workshop/03-async/)
 
 *Stay tuned*
 

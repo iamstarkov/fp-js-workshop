@@ -671,9 +671,10 @@ Functions takes functions and returns functions
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop), [this slides](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
+["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop),  
+["#1 theoretic intro" slides](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
 
-To be continued with "#2 Practical intro"
+To be continued with ["#2 practical intro"](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 
 *Stay tuned*
 
