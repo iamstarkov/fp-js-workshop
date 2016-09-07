@@ -280,7 +280,7 @@ add(1)(2) === alsoAdd(1)(2) === 3; // true
 
 --
 
-## Curry, (as a blackbox)
+## Curry, as a blackbox
 
 It just works™
 
@@ -296,7 +296,7 @@ curriedSum(1)(2, 3); // 6
 ```
 --
 
-## Curry, (from the inside)
+## Curry, (from the inside
 
 For those, who are curious:
 
@@ -364,7 +364,7 @@ square(3); // power(2, 3) → 9
 ## Curry, why? (another shot)
 
 ```javascript
-cont add = curry( (x, y) => x + y );
+const add = curry( (x, y) => x + y );
 
 const inc = add(1); // y → add(1, y)
 
@@ -576,7 +576,7 @@ keywords(' hello,, world'); // ['hello', 'world']
 
 ## Functional composition (pipe as Unix pipe)
 
-* LiSt node_modules content
+* List node_modules content
 * Word Count by -lines
 
 ```bash
