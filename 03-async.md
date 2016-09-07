@@ -236,7 +236,7 @@ TL;DR: want to inc and double = `pipe(inc, double)`
 
 `promise1(x).then(promise2)`  
 equals  
-`pipeP(promise1, promise2, fn1)(x)`
+`pipeP(promise1, promise2)(x)`
 
 --
 
