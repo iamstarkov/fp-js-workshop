@@ -29,5 +29,9 @@ echo "# build 04-contracts"
 mkdir dist/04-contracts
 cleaver 04-contracts.md --output dist/04-contracts/index.html
 
+echo "# build 0X-nordicjs"
+mkdir dist/0X-nordicjs
+cleaver 0X-nordicjs.md --output dist/0X-nordicjs/index.html
+
 echo "# deploy dist to gh-pages"
 buildbranch gh-pages dist
