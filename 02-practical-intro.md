@@ -12,7 +12,8 @@ controls: true
 Easy to understand, read, test and debug
 
 <br/><br/><br/>
-<small>by [Vladimir Starkov](https://iamstarkov.com)</small>
+<small>by [Vladimir Starkov](https://iamstarkov.com)</small>  
+<small>frontend engineer at [Nordnet Bank AB](https://www.nordnet.se/)</small>
 
 --
 
@@ -350,7 +351,7 @@ hashtagify('you are prepared!') // '#you #are #prepared!'
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop),  
+["real world fp" workshop repo](https://github.com/iamstarkov/fp-js-workshop)  
 ["#2 practical intro" slides](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
 
 To be continued with ["#3 async"](https://iamstarkov.com/fp-js-workshop/03-async/)

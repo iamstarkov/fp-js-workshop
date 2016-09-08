@@ -12,8 +12,8 @@ controls: true
 Easy to understand, read, test and debug
 
 <br/><br/><br/>
-<small>by [Vladimir Starkov](https://iamstarkov.com)</small>
-
+<small>by [Vladimir Starkov](https://iamstarkov.com)</small>  
+<small>frontend engineer at [Nordnet Bank AB](https://www.nordnet.se/)</small>
 --
 
 ## what
@@ -326,7 +326,7 @@ split(2); //> TypeError: str should be an String, but got Number: 2
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop)  
+["real world fp" workshop repo](https://github.com/iamstarkov/fp-js-workshop)  
 ["#4 contracts" slides](https://iamstarkov.com/fp-js-workshop/03-contracts/)
 
 To be continued with real world implementation with you.

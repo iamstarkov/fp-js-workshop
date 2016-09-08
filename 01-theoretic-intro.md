@@ -12,7 +12,8 @@ controls: true
 Easy to understand, read, test and debug
 
 <br/><br/><br/>
-<small>by [Vladimir Starkov](https://iamstarkov.com)</small>
+<small>by [Vladimir Starkov](https://iamstarkov.com)</small>  
+<small>frontend engineer at [Nordnet Bank AB](https://www.nordnet.se/)</small>
 
 --
 
@@ -671,7 +672,7 @@ Functions takes functions and returns functions
 
 ## Functional Programming, (recursion)
 
-["real world fp" repo](https://github.com/iamstarkov/fp-js-workshop),  
+["real world fp" workshop repo](https://github.com/iamstarkov/fp-js-workshop)  
 ["#1 theoretic intro" slides](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
 
 To be continued with ["#2 practical intro"](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
