@@ -27,7 +27,8 @@ which can be used to build bundlers like browserify or rollup.
 4. [Contracts](https://iamstarkov.com/fp-js-workshop/04-contracts/)
 5. Start implementation of real world modules. Several of them, smth about 6 sessions.
 
+PS. Lightning talk at _NordicJS 2016_ about `pipe`, `pipeP` and `tap(console.log)` https://iamstarkov.com/fp-js-workshop/0X-nordicjs/
+
 ## License
 
 MIT © [Vladimir Starkov](https://iamstarkov.com)
-
