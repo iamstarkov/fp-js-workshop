@@ -14,6 +14,7 @@ Easy to understand, read, test and debug
 <br/><br/><br/>
 <small>by [Vladimir Starkov](https://iamstarkov.com)</small>  
 <small>frontend engineer at [Nordnet Bank AB](https://www.nordnet.se/)</small>
+
 --
 
 ## what
