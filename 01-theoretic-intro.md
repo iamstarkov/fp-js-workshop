@@ -71,7 +71,7 @@ const double = x => x * 2;
 xs.splice(0, 3);
 
 // also impure
-const minimum = 21;
+var minimum = 21;
 const checkAge = function(age) {
   return age >= minimum;
 };
