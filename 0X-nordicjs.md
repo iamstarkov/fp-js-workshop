@@ -42,14 +42,14 @@ Easy to understand, read, test and debug
 ## without FP
 
 ```javascript
-const fn = str =>
-  rejectEmptyItems(
-    trimArray(
-      splitByComma(str)
-    )
-  )
+const fn = str => {
+  const splittedArr = splitByComma(str);
+  const trimmedArr = trimArray(splittedArr);
+  const withoutEmptyItemsArr = rejectEmptyItems(trimmedArr)
+  return withoutEmptyItemsArr;
+}
 
-fn('hello, ,  nordicjs') // ['hello', 'nordicjs']
+fn('hello, nordicjs') // ["hello", "nordicjs"]
 ```
 --
 
@@ -62,7 +62,7 @@ const fn = pipe(
   rejectEmptyItems,
 )
 
-fn('hello, nordicjs') // ['hello', 'nordicjs']
+fn('hello, nordicjs') // ["hello", "nordicjs"]
 ```
 --
 
@@ -74,7 +74,7 @@ const fetchJson = url =>
     .then(checkStatus)
     .then(parseJSON)
 
-fn('/api/hello') // { hello: 'nordicjs' }
+fn('/api/hello') // { hello: "nordicjs" }
 ```
 
 --
@@ -88,7 +88,7 @@ const fetchJson = pipeP(
   parseJSON
 )
 
-fn('/api/hello') // { hello: 'nordicjs' }
+fn('/api/hello') // { hello: "nordicjs" }
 ```
 
 --
@@ -100,16 +100,16 @@ const tap = fn => val => { fn(val); return val; }
 const log = tap(val => console.log(val));
 
 const fn = pipe(
-  log, // ' hello,    nordicjs'
+  log, // " hello, ,,  nordicjs"
   splitByComma,
-  log, // [' hello', ' ', '  nordicjs']
+  log, // [" hello", " ", "", "  nordicjs"]
   trimArray,
-  log, // ['hello', '', 'nordicjs']
+  log, // ["hello", "", "", "nordicjs"]
   rejectEmptyItems,
-  log, // ['hello', 'nordicjs']
+  log, // ["hello", "nordicjs"]
 )
 
-fn(' hello, ,  nordicjs') // ['sup', 'nordicjs']
+fn(' hello, ,,  nordicjs') // ["hello", "nordicjs"]
 ```
 --
 
