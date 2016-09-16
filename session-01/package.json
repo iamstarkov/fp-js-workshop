@@ -9,5 +9,15 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-register": "^6.14.0"
+  },
+  "dependencies": {
+    "neat-contract": "^1.1.0",
+    "ramda": "^0.22.1"
+  }
 }

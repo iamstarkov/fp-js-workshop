@@ -1,11 +1,13 @@
 import test from 'ava';
 import esDepsFromString from './index';
 
+const input = ['some', 'other'];
+
 test('basic', t => {
   const actual = esDepsFromString(input);
   const expected = ['some', 'other'];
   t.deepEqual(actual, expected);
 })
 
-test('empty input', t => t.throws(esDepsDeep(), TypeError));
-test('invalid files', t => t.throws(esDepsDeep(2), TypeError));
+test.skip('empty input', t => t.throws(esDepsFromString(), TypeError));
+test.skip('invalid files', t => t.throws(esDepsFromString(2), TypeError));
