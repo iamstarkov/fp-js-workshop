@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "buildbranch": "^1.0.0",
+    "buildbranch": "^2.0.0",
     "cleaver": "^0.8.2"
   },
   "scripts": {
