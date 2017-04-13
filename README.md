@@ -1,5 +1,7 @@
 # fp-js-workshop
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/iamstarkov/fp-js-workshop.svg)](https://greenkeeper.io/)
+
 > real world fp
 
 I wanna share some functional programming knowledge in application
