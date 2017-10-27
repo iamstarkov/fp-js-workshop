@@ -26,10 +26,7 @@ which can be used to build bundlers like browserify or rollup.
 3. [Async operations](https://iamstarkov.github.io/fp-js-workshop/03-async/)
 4. [Contracts](https://iamstarkov.github.io/fp-js-workshop/04-contracts/)
 
-PS. Lightning talk at _NordicJS 2016_ about `pipe`, `pipeP` and `tap(console.log)`
-https://iamstarkov.com/fp-js-workshop/0X-nordicjs/
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7omtQrpgU84" frameborder="0" allowfullscreen></iframe>
+PS. Lightning talk ([slides](https://iamstarkov.com/fp-js-workshop/0X-nordicjs/), [video](https://youtu.be/7omtQrpgU84)) at _NordicJS 2016_ about `pipe`, `pipeP` and `tap(console.log)`
 
 
 ## License
