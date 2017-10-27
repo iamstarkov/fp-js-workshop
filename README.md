@@ -21,13 +21,16 @@ which can be used to build bundlers like browserify or rollup.
 
 ## Talks
 
-1. [Theoretic intro](https://iamstarkov.com/fp-js-workshop/01-theoretic-intro/)
-2. [Practical intro](https://iamstarkov.com/fp-js-workshop/02-practical-intro/)
-3. [Async operations](https://iamstarkov.com/fp-js-workshop/03-async/)
-4. [Contracts](https://iamstarkov.com/fp-js-workshop/04-contracts/)
-5. Start implementation of real world modules. Several of them, smth about 6 sessions.
+1. [Theoretic intro](https://iamstarkov.github.io/fp-js-workshop/01-theoretic-intro/)
+2. [Practical intro](https://iamstarkov.github.io/fp-js-workshop/02-practical-intro/)
+3. [Async operations](https://iamstarkov.github.io/fp-js-workshop/03-async/)
+4. [Contracts](https://iamstarkov.github.io/fp-js-workshop/04-contracts/)
 
-PS. Lightning talk at _NordicJS 2016_ about `pipe`, `pipeP` and `tap(console.log)` https://iamstarkov.com/fp-js-workshop/0X-nordicjs/
+PS. Lightning talk at _NordicJS 2016_ about `pipe`, `pipeP` and `tap(console.log)`
+https://iamstarkov.com/fp-js-workshop/0X-nordicjs/
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7omtQrpgU84" frameborder="0" allowfullscreen></iframe>
+
 
 ## License
 
