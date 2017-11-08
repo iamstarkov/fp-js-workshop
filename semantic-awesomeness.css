@@ -1,5 +1,5 @@
 .bg {
-  background-size: contain;
+  background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: #fff;
@@ -8,8 +8,6 @@
 .bg h1 {
   color: transparent;
 }
-
-.bg-intro { background-position: 50% -20%; }
 
 .bg-intro { background-image: url(https://i.imgur.com/moHxyoJ.jpg); }
 .bg-headaches { background-image: url(https://i.imgur.com/JzFt2hA.jpg); }
