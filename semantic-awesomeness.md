@@ -221,12 +221,6 @@ npm publish
 -- bg bg-summary
 # Summary
 
---
-### Summary
-
-
-
-
 -- bg bg-outro
 # Semantic Awesomeness
 
