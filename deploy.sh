@@ -2,7 +2,7 @@
 set -e
 
 echo "# set git environment"
-git config user.email "iamstarkov@gmail.com"
+git config user.email "local@localhost"
 git config user.name "Vladimir Starkov"
 git remote rm origin
 git remote add origin https://iamstarkov:${GITHUB_TOKEN}@github.com/iamstarkov/fp-js-workshop.git
