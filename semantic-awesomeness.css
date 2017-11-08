@@ -1,0 +1,23 @@
+.bg {
+  background-size: contain;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: #fff;
+}
+
+.bg h1 {
+  color: transparent;
+}
+
+.bg-intro { background-position: 50% -20%; }
+
+.bg-intro { background-image: url(https://i.imgur.com/moHxyoJ.jpg); }
+.bg-headaches { background-image: url(https://i.imgur.com/JzFt2hA.jpg); }
+.bg-mynameis { background-image: url(https://i.imgur.com/BGQHCVT.jpg); }
+.bg-problem { background-image: url(https://i.imgur.com/qy0btZH.jpg); }
+.bg-semver { background-image: url(https://i.imgur.com/2r2cfO9.jpg); }
+.bg-history { background-image: url(https://i.imgur.com/a2VPOrv.jpg); }
+.bg-semantic-release { background-image: url(https://i.imgur.com/TKKLPki.jpg); }
+.bg-practicalities { background-image: url(https://i.imgur.com/1zEXHo5.jpg); }
+.bg-summary { background-image: url(https://i.imgur.com/nsJhCmU.jpg); }
+.bg-outro { background-image: url(https://i.imgur.com/moHxyoJ.jpg); }
