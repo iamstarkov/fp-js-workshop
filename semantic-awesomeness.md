@@ -69,6 +69,18 @@ or
 * Changelog is derived from commit messages
 * next version is derived from commit messages as well
 
+--
+### Semantic release
+#### conventional format
+
+```
+type(scope?): short message
+
+long description
+
+BREAKING CHANGES or github/jira issues mentions
+```
+
 -- bg bg-practicalities
 # Practicalities
 
@@ -77,12 +89,143 @@ or
 #### Prerequisites
 
 1. Continuous Integration in place
-2. Credentials:
+2. _release-bot_ credentials:
   * SCM access
   * NPM registry
 
+--
+### Practicalities
+#### Tool choice
+
+* [semantic-release](https://github.com/semantic-release/semantic-release) for Travis + GitHub
+* [corp-semantic-release](https://github.com/leonardoanalista/corp-semantic-release) for everything else
+
+--
+### Practicalities
+#### Writing commit messages
+
+[commitizen](https://github.com/commitizen/cz-cli) + [cz-conventional-changelog](https://github.com/commitizen/cz-conventional-changelog) config
+
+```js
+// ./package.json
+"scripts": {
+  "commit": "git-cz",
+  // ...
+},
+"config": {
+  "commitizen": {
+    "path": "cz-conventional-changelog"
+  }
+},
+```
+
+--
+### Practicalities
+#### Writing commit messages
+
+![](https://raw.githubusercontent.com/commitizen/cz-cli/master/meta/screenshots/add-commit.png)
+
+--
+### Practicalities
+#### Validating commit messages
+
+[husky](https://github.com/typicode/husky) + [@commitlint/{cli,config-angular}](https://github.com/marionebl/commitlint)
+
+```js
+// ./package.json
+"scripts": {
+  "commitmsg": "commitlint -e $GIT_PARAMS",
+}
+
+// commitlint.config.js
+module.exports = { extends: [ '@commitlint/config-angular'] }
+```
+
+-- images
+
+### Practicalities
+#### Validating commit messages
+
+Invalid:
+![](https://i.imgur.com/mTjkpap.png)
+
+Valid:
+![](https://i.imgur.com/2uVkgwz.png)
+
+--
+### Practicalities
+#### CI Integration
+
+* run semantic-release only in master
+* ignore commit message [ci-skip]
+* ignore git tags
+* ignore the release-bot
+
+--
+
+### Practicalities
+#### semantic-release
+
+```js
+npm install --save-dev semantic-release
+
+// ./.travis.yml
+git config user.email "release-bot@localhost"
+git config user.name "release-bot"
+npm run build
+npm run semantic-release
+
+// ./package.json
+"scripts": {
+  "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+}
+```
+
+-- images
+
+### Practicalities
+#### semantic-release changelog
+
+![](https://i.imgur.com/zg8T2sV.png)
+
+--
+
+### Practicalities
+#### corp-semantic-release
+
+```js
+npm install --save-dev corp-semantic-release conventional-changelog-angular-bitbucket
+
+// ./.travis.yml
+git config user.email "release-bot@localhost"
+git config user.name "release-bot"
+git checkout master
+npm run build
+npm run semantic-release
+npm publish
+
+// ./package.json
+"scripts": {
+  "semantic-release": "corp-semantic-release --changelogpreset angular-bitbucket -v",
+}
+```
+
+-- images
+
+### Practicalities
+#### semantic-release changelog
+
+![](https://i.imgur.com/frf4HgR.png)
+
+
 -- bg bg-summary
 # Summary
+
+--
+### Summary
+
+
+
 
 -- bg bg-outro
 # Semantic Awesomeness

@@ -24,3 +24,8 @@
 .bg-outro {
   background-position: 50% 80%;
 }
+
+
+.images img {
+  max-width: 100%;
+}
