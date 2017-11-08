@@ -33,5 +33,9 @@ echo "# build 0X-nordicjs"
 mkdir dist/0X-nordicjs
 cleaver 0X-nordicjs.md --output dist/0X-nordicjs/index.html
 
+echo "# build semantic-awesomeness"
+mkdir dist/semantic-awesomeness
+cleaver semantic-awesomeness.md --output dist/semantic-awesomeness/index.html
+
 echo "# deploy dist to gh-pages"
 buildbranch gh-pages dist
